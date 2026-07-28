@@ -34,14 +34,26 @@ export default async function Header() {
           ))}
         </nav>
 
-        <div className="relative ml-auto hidden max-w-sm flex-1 sm:block">
+        <form
+          action="/search"
+          className="relative ml-auto hidden max-w-sm flex-1 sm:block"
+        >
           <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-navy/40" />
           <input
             type="search"
+            name="q"
             placeholder="Search for surface sports, academies, play zones..."
             className="w-full rounded-md border border-navy/15 bg-white py-2 pr-3 pl-9 text-sm text-navy placeholder:text-navy/40 focus:border-blue focus:outline-none"
           />
-        </div>
+        </form>
+
+        <Link
+          href="/search"
+          aria-label="Search"
+          className="ml-auto flex h-9 w-9 shrink-0 items-center justify-center rounded-md text-navy/70 hover:text-blue sm:hidden"
+        >
+          <Search className="h-5 w-5" />
+        </Link>
 
         <div className="flex shrink-0 items-center gap-3">
           {user ? (
