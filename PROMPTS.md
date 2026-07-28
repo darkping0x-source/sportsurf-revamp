@@ -113,3 +113,29 @@ on top — not a direct push to their production system.
 > same UI/UX, same colors, AI search, AI chatbot, registration + validation, admin
 > dashboard with content/validation/query management, responsive, tested. Note anything
 > intentionally out of scope or assumed, for the submission notes.
+
+**Result — brief checked line by line:**
+
+| Brief requirement | Status |
+|---|---|
+| Site revamped | Done — fresh Next.js rebuild matching the live site's structure/nav/content |
+| UI/UX can remain same | Done — same nav, hero/category-grid/project-showcase/testimonials/certification-strip/footer layout |
+| Same colors | Done — exact hex palette extracted from the live site, wired as Tailwind theme tokens |
+| AI search | Done — Gemini-ranked catalog search with a local keyword fallback; logged to `chat_queries` |
+| AI chatbot | Done — floating widget grounded in real catalog data, WhatsApp/email fallback out of scope |
+| User registration/validation | Done — Supabase Auth, email verification, server-side validation on both forms |
+| Admin dashboard: content loading | Done — full Product/Project CRUD |
+| Admin dashboard: validation | Done — quote-request approve/reject queue |
+| Admin dashboard: query management | Done — filterable search+chatbot query log |
+| Admin dashboard: "etc more features" | Added — activity overview with top-search-terms, user role management |
+| Any tech stack, no errors | Next.js + TS + Tailwind + Supabase + Gemini; clean lint/build at every phase |
+| Responsive | Checked at 375/768/1280px; found and fixed a real bug (no mobile nav) |
+| Tested | Unit tests (18, vitest) + Playwright integration test + full manual route sweep, all against the live Supabase project |
+
+**Out of scope / assumed (see README's "Known scope notes" for the full version):** no
+access to Sportsurf's real backend, so this rebuilds the public site rather than modifying
+their production system; catalog content is representative (9 products, 8 projects) rather
+than their complete real inventory; no image assets; Gemini's free tier was used deliberately
+to keep this at zero cost, per instruction; Supabase's default email is rate-limited and fine
+for evaluation but would need a real SMTP provider before a production launch; not deployed
+to a public URL.
