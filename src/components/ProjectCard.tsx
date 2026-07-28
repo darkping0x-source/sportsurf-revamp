@@ -1,7 +1,7 @@
 import Link from "next/link";
+import Image from "next/image";
 import { MapPin, Grid2x2, ArrowUpRight } from "lucide-react";
 import type { Project } from "@/lib/types";
-import { CATEGORY_ICONS } from "@/lib/category-icons";
 
 function formatYear(dateStr?: string) {
   if (!dateStr) return null;
@@ -10,18 +10,22 @@ function formatYear(dateStr?: string) {
 
 export default function ProjectCard({ project }: { project: Project }) {
   const year = formatYear(project.completedOn);
-  const Icon = CATEGORY_ICONS[project.category];
 
   return (
     <Link
       href={`/projects/${project.slug}`}
       className="group overflow-hidden rounded-xl border border-navy/10 bg-white transition hover:shadow-lg"
     >
-      <div className="relative flex h-56 w-full items-center justify-center overflow-hidden bg-gradient-to-br from-navy to-navy/70">
-        <Icon
-          className="h-20 w-20 text-white/15 transition duration-500 group-hover:scale-110"
-          strokeWidth={1}
-        />
+      <div className="relative h-56 w-full overflow-hidden">
+        {project.imageUrl && (
+          <Image
+            src={project.imageUrl}
+            alt={project.title}
+            fill
+            sizes="(min-width: 1024px) 33vw, 100vw"
+            className="object-cover transition duration-500 group-hover:scale-105"
+          />
+        )}
         {year && (
           <span className="absolute top-3 left-3 rounded bg-white/90 px-2 py-1 text-xs font-bold text-navy">
             {year}

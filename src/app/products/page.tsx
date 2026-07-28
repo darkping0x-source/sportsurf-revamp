@@ -1,8 +1,8 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Star } from "lucide-react";
 import { getProducts } from "@/lib/data";
 import { PRODUCT_CATEGORIES, type ProductCategory } from "@/lib/types";
-import { CATEGORY_ICONS } from "@/lib/category-icons";
 
 export const metadata = {
   title: "Products — SportSurf India",
@@ -66,19 +66,22 @@ export default async function ProductsPage({
       </p>
 
       <div className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {visible.map((product) => {
-          const Icon = CATEGORY_ICONS[product.category];
-          return (
+        {visible.map((product) => (
           <Link
             key={product.id}
             href={`/products?category=${product.category}`}
             className="group overflow-hidden rounded-xl border border-navy/10 bg-white transition hover:shadow-lg"
           >
-            <div className="relative flex h-52 w-full items-center justify-center overflow-hidden bg-gradient-to-br from-navy to-navy/70">
-              <Icon
-                className="h-20 w-20 text-white/15 transition duration-500 group-hover:scale-110"
-                strokeWidth={1}
-              />
+            <div className="relative h-52 w-full overflow-hidden">
+              {product.imageUrl && (
+                <Image
+                  src={product.imageUrl}
+                  alt={product.name}
+                  fill
+                  sizes="(min-width: 1024px) 33vw, 100vw"
+                  className="object-cover transition duration-500 group-hover:scale-105"
+                />
+              )}
               <span className="absolute top-3 left-3 rounded bg-gold px-2.5 py-1 text-[10px] font-bold tracking-wide text-navy uppercase">
                 {PRODUCT_CATEGORIES.find((c) => c.value === product.category)?.label}
               </span>
@@ -105,8 +108,7 @@ export default async function ProductsPage({
               </p>
             </div>
           </Link>
-          );
-        })}
+        ))}
         {visible.length === 0 && (
           <p className="col-span-full text-navy/50">No products in this category yet.</p>
         )}

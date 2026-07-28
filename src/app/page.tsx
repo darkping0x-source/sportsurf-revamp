@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowUpRight, Star, Quote, MessageCircle } from "lucide-react";
 import { PRODUCT_CATEGORIES } from "@/lib/types";
-import { CATEGORY_ICONS } from "@/lib/category-icons";
+import { CATEGORY_IMAGES } from "@/lib/category-icons";
 import ProjectCard from "@/components/ProjectCard";
 import {
   getCertifications,
@@ -92,30 +92,31 @@ export default async function Home() {
         </div>
 
         <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:auto-rows-[220px] lg:grid-cols-4">
-          {featuredCategories.map((cat, i) => {
-            const Icon = CATEGORY_ICONS[cat.value];
-            return (
-              <Link
-                key={cat.value}
-                href={`/products?category=${cat.value}`}
-                className={`group relative flex flex-col justify-end overflow-hidden rounded-xl bg-gradient-to-br from-navy to-blue-dark p-5 text-white ${spans[i]}`}
-              >
-                <Icon
-                  className="absolute -top-4 -right-4 h-32 w-32 text-white/10 transition duration-500 group-hover:scale-110 group-hover:rotate-6"
-                  strokeWidth={1}
-                />
-                <div className="relative">
-                  <p className="text-lg font-bold">{cat.label}</p>
-                  <p className="mt-1 text-sm text-white/70">
-                    Premium {cat.label.toLowerCase()} solutions customized for performance.
-                  </p>
-                  <span className="mt-2 flex items-center gap-1 text-xs font-semibold text-gold uppercase">
-                    Explore <ArrowUpRight className="h-3.5 w-3.5" />
-                  </span>
-                </div>
-              </Link>
-            );
-          })}
+          {featuredCategories.map((cat, i) => (
+            <Link
+              key={cat.value}
+              href={`/products?category=${cat.value}`}
+              className={`group relative overflow-hidden rounded-xl ${spans[i]}`}
+            >
+              <Image
+                src={CATEGORY_IMAGES[cat.value]}
+                alt={cat.label}
+                fill
+                sizes="(min-width: 1024px) 50vw, 100vw"
+                className="object-cover transition duration-500 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/10 to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 p-5 text-white">
+                <p className="text-lg font-bold">{cat.label}</p>
+                <p className="mt-1 text-sm text-white/70">
+                  Premium {cat.label.toLowerCase()} solutions customized for performance.
+                </p>
+                <span className="mt-2 flex items-center gap-1 text-xs font-semibold text-gold uppercase">
+                  Explore <ArrowUpRight className="h-3.5 w-3.5" />
+                </span>
+              </div>
+            </Link>
+          ))}
         </div>
       </section>
 

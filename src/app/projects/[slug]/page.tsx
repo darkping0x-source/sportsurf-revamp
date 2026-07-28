@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { getProjectBySlug } from "@/lib/data";
 import { PRODUCT_CATEGORIES } from "@/lib/types";
-import { CATEGORY_ICONS } from "@/lib/category-icons";
 
 export default async function ProjectDetailPage({
   params,
@@ -17,13 +17,15 @@ export default async function ProjectDetailPage({
   }
 
   const categoryLabel = PRODUCT_CATEGORIES.find((c) => c.value === project.category)?.label;
-  const Icon = CATEGORY_ICONS[project.category];
 
   return (
     <main className="flex-1">
-      <div className="relative flex h-72 w-full items-center justify-center overflow-hidden bg-gradient-to-br from-navy to-blue-dark sm:h-96">
-        <Icon className="h-40 w-40 text-white/10" strokeWidth={1} />
-      </div>
+      {project.imageUrl && (
+        <div className="relative h-72 w-full sm:h-96">
+          <Image src={project.imageUrl} alt={project.title} fill priority className="object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-navy/20 to-transparent" />
+        </div>
+      )}
 
       <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
         <Link href="/projects" className="text-sm font-medium text-blue hover:text-blue-dark">
