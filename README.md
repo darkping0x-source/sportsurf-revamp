@@ -37,6 +37,18 @@ The full prompt-by-prompt build log is in [`PROMPTS.md`](./PROMPTS.md). In short
    header's nav links were fully hidden on mobile with no menu to replace them).
 9. **Testing** — unit tests for validation and search ranking, a Playwright integration test
    for login → quote request → profile, and a full manual route sweep.
+10. **Visual redesign** — after review, the first pass was flagged as looking visually
+    inferior to the real site (fair — it was plain single-typeface cards, no imagery). Took
+    actual screenshots of sportsurf.in this time, not just scraped text, and rebuilt the
+    design system to match: a utility bar, category icon nav, scrolling promo ticker,
+    full-bleed photo hero, asymmetric bento portfolio grid, stats band, star-rated
+    testimonials, and a serif/sans typographic pairing (Playfair Display + Geist). Expanded
+    to the real site's 9 product categories (was 6) with ratings and review counts. Tried
+    sourcing real stock photography for product/project cards (Picsum, then LoremFlickr for
+    keyword search) but LoremFlickr returned real identifiable people and Olympic-sponsor
+    branding on some results — a genuine problem for a business site, not a cosmetic one —
+    so product/project cards use a per-category icon-on-gradient treatment instead, which
+    is coherent and on-brand rather than randomly mismatched.
 
 Each phase was verified against the live Supabase project as it was built, not just written
 and assumed to work — see the git log for what was actually tested at each step.
@@ -60,6 +72,8 @@ Before first run, apply the schema to your Supabase project (SQL Editor, in orde
 1. `supabase/migrations/0001_init.sql`
 2. `supabase/migrations/0002_seed.sql`
 3. `supabase/migrations/0003_fix_admin_recursion.sql`
+4. `supabase/migrations/0004_expand_categories_and_media.sql`
+5. `supabase/migrations/0005_expand_seed.sql`
 
 To reach the admin dashboard, promote a user to admin manually once, e.g.:
 
@@ -76,11 +90,14 @@ npm run test:e2e   # integration test (Playwright) — login, quote request, pro
 
 ## Known scope notes for this submission
 
-- **Content is representative, not the real catalog.** Nine products and eight projects
-  were seeded from what the public site actually shows, but this isn't Sportsurf's full real
-  database — the admin dashboard is there so real content can be added going forward.
-- **No image assets.** Product/project photography wasn't available without access to their
-  media library; the schema has an `images` column ready for it.
+- **Content is representative, not the real catalog.** 15 products and 10 projects across
+  9 categories were seeded from what the public site actually shows, but this isn't
+  Sportsurf's full real database — the admin dashboard is there so real content (including
+  real photos, via the Image URL field on each product/project) can be added going forward.
+- **Product/project cards use icon-on-gradient tiles, not photos**, by deliberate choice —
+  see the redesign note above. The schema and admin forms both support a real `image_url`;
+  swapping the card components back to `next/image` once real photography exists is a small,
+  isolated change (`ProjectCard.tsx`, `products/page.tsx`).
 - **Email is on Supabase's default shared SMTP**, which rate-limits to a couple of signup
   emails per hour — fine for this evaluation, but a production launch would want a real SMTP
   provider (Resend, SendGrid, etc.) configured in Supabase's Auth settings.
