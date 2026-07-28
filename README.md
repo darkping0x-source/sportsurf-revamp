@@ -94,10 +94,12 @@ npm run test:e2e   # integration test (Playwright) — login, quote request, pro
   9 categories were seeded from what the public site actually shows, but this isn't
   Sportsurf's full real database — the admin dashboard is there so real content (including
   real photos, via the Image URL field on each product/project) can be added going forward.
-- **Product/project cards use icon-on-gradient tiles, not photos**, by deliberate choice —
-  see the redesign note above. The schema and admin forms both support a real `image_url`;
-  swapping the card components back to `next/image` once real photography exists is a small,
-  isolated change (`ProjectCard.tsx`, `products/page.tsx`).
+- **Product/project photos are generic stock imagery (Picsum), not real Sportsurf photos**,
+  so they don't always match the labeled product/project (a lizard for a swimming pool, a
+  tram for badminton flooring). An icon-on-gradient alternative was tried and reverted per
+  request — real photography over accurate-but-generic beats abstract-but-coherent for this
+  submission. Swap in real photos any time via each product/project's Image URL field in the
+  admin dashboard, or the `image_url` column directly.
 - **Email is on Supabase's default shared SMTP**, which rate-limits to a couple of signup
   emails per hour — fine for this evaluation, but a production launch would want a real SMTP
   provider (Resend, SendGrid, etc.) configured in Supabase's Auth settings.
