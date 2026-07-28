@@ -1,9 +1,12 @@
 import Link from "next/link";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { FacebookIcon, InstagramIcon, LinkedinIcon } from "@/components/SocialIcons";
-import { certifications } from "@/lib/data/company";
+import { getCertifications } from "@/lib/data";
+import { PRODUCT_CATEGORIES } from "@/lib/types";
 
-export default function Footer() {
+export default async function Footer() {
+  const certifications = await getCertifications();
+
   return (
     <footer className="mt-auto bg-navy text-white">
       <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
@@ -15,54 +18,21 @@ export default function Footer() {
           ))}
         </div>
 
-        <div className="grid gap-8 py-10 sm:grid-cols-2 lg:grid-cols-4">
-          <div>
-            <p className="text-lg font-bold tracking-tight">
-              SportSurf <span className="text-gold">India</span>
-            </p>
+        <div className="grid gap-8 py-10 sm:grid-cols-2 lg:grid-cols-5">
+          <div className="lg:col-span-2">
+            <div className="flex items-center gap-2.5">
+              <span className="flex h-8 w-8 items-center justify-center rounded-md bg-gold text-sm font-bold text-navy">
+                S
+              </span>
+              <p className="font-display text-lg font-bold tracking-tight">
+                SportSurf <span className="text-gold">India</span>
+              </p>
+            </div>
             <p className="mt-3 max-w-xs text-sm leading-relaxed text-white/60">
-              Leader in Sports Surfaces &amp; Infrastructure — designing, building, and
-              outfitting sports facilities across India.
+              India&apos;s leading sports infrastructure company — designing, building, and
+              outfitting arenas for sport, play, and excellence.
             </p>
-          </div>
-
-          <div>
-            <p className="text-xs font-semibold tracking-wider text-white/40 uppercase">
-              Quick Links
-            </p>
-            <ul className="mt-3 space-y-2 text-sm text-white/60">
-              <li><Link href="/products" className="hover:text-gold transition-colors">Products</Link></li>
-              <li><Link href="/projects" className="hover:text-gold transition-colors">Projects</Link></li>
-              <li><Link href="/about" className="hover:text-gold transition-colors">About</Link></li>
-              <li><Link href="/quote" className="hover:text-gold transition-colors">Get a Quote</Link></li>
-            </ul>
-          </div>
-
-          <div>
-            <p className="text-xs font-semibold tracking-wider text-white/40 uppercase">
-              Corporate Office
-            </p>
-            <ul className="mt-3 space-y-2 text-sm text-white/60">
-              <li className="flex items-start gap-2">
-                <MapPin className="text-gold mt-0.5 h-4 w-4 shrink-0" />
-                Gurgaon, Haryana, India — Pan India Service Availability
-              </li>
-              <li className="flex items-center gap-2">
-                <Phone className="text-gold h-4 w-4 shrink-0" />
-                +91 99661 09191
-              </li>
-              <li className="flex items-center gap-2">
-                <Mail className="text-gold h-4 w-4 shrink-0" />
-                info@sportsurf.in
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <p className="text-xs font-semibold tracking-wider text-white/40 uppercase">
-              Follow Us
-            </p>
-            <div className="mt-3 flex gap-3">
+            <div className="mt-4 flex gap-3">
               <a
                 href="#"
                 aria-label="Facebook"
@@ -85,6 +55,57 @@ export default function Footer() {
                 <LinkedinIcon className="h-4 w-4" />
               </a>
             </div>
+          </div>
+
+          <div>
+            <p className="text-xs font-semibold tracking-wider text-white/40 uppercase">
+              Quick Links
+            </p>
+            <ul className="mt-3 space-y-2 text-sm text-white/60">
+              <li><Link href="/" className="hover:text-gold transition-colors">Home</Link></li>
+              <li><Link href="/products" className="hover:text-gold transition-colors">Products</Link></li>
+              <li><Link href="/projects" className="hover:text-gold transition-colors">Projects</Link></li>
+              <li><Link href="/about" className="hover:text-gold transition-colors">About</Link></li>
+              <li><Link href="/quote" className="hover:text-gold transition-colors">Get a Quote</Link></li>
+            </ul>
+          </div>
+
+          <div>
+            <p className="text-xs font-semibold tracking-wider text-white/40 uppercase">
+              Categories
+            </p>
+            <ul className="mt-3 space-y-2 text-sm text-white/60">
+              {PRODUCT_CATEGORIES.map((cat) => (
+                <li key={cat.value}>
+                  <Link
+                    href={`/products?category=${cat.value}`}
+                    className="hover:text-gold transition-colors"
+                  >
+                    {cat.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <p className="text-xs font-semibold tracking-wider text-white/40 uppercase">
+              Contact Us
+            </p>
+            <ul className="mt-3 space-y-2 text-sm text-white/60">
+              <li className="flex items-start gap-2">
+                <MapPin className="text-gold mt-0.5 h-4 w-4 shrink-0" />
+                Gurgaon, Haryana, India — Pan India Service Availability
+              </li>
+              <li className="flex items-center gap-2">
+                <Phone className="text-gold h-4 w-4 shrink-0" />
+                +91 99661 09191
+              </li>
+              <li className="flex items-center gap-2">
+                <Mail className="text-gold h-4 w-4 shrink-0" />
+                info@sportsurf.in
+              </li>
+            </ul>
           </div>
         </div>
 

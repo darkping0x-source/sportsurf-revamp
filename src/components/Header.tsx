@@ -1,7 +1,10 @@
 import Link from "next/link";
-import { Search, UserRound, ShieldCheck } from "lucide-react";
+import { Search, UserRound, ShieldCheck, ArrowRight } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import MobileMenu from "@/components/MobileMenu";
+import UtilityBar from "@/components/UtilityBar";
+import CategoryNav from "@/components/CategoryNav";
+import PromoTicker from "@/components/PromoTicker";
 
 const NAV_LINKS = [
   { href: "/products", label: "Products" },
@@ -28,9 +31,21 @@ export default async function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-navy/10 bg-cream/95 backdrop-blur">
+      <UtilityBar isLoggedIn={Boolean(user)} />
+
       <div className="relative mx-auto flex max-w-7xl items-center gap-4 px-4 py-3 sm:px-6 lg:gap-6 lg:px-8">
-        <Link href="/" className="shrink-0 text-lg font-bold tracking-tight text-navy">
-          SportSurf <span className="text-gold">India</span>
+        <Link href="/" className="flex shrink-0 items-center gap-2.5">
+          <span className="flex h-9 w-9 items-center justify-center rounded-md bg-navy text-lg font-bold text-white">
+            S
+          </span>
+          <span className="leading-none">
+            <span className="block font-display text-lg font-bold tracking-tight text-navy">
+              SportSurf
+            </span>
+            <span className="block text-[10px] font-semibold tracking-[0.2em] text-gold uppercase">
+              India
+            </span>
+          </span>
         </Link>
 
         <nav className="hidden items-center gap-6 md:flex">
@@ -94,12 +109,15 @@ export default async function Header() {
           )}
           <Link
             href="/quote"
-            className="rounded-md bg-blue px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-dark"
+            className="flex items-center gap-1.5 rounded-md bg-gold px-4 py-2 text-sm font-semibold text-navy transition hover:bg-amber"
           >
-            Get a Quote
+            Get a Quote <ArrowRight className="h-3.5 w-3.5" />
           </Link>
         </div>
       </div>
+
+      <CategoryNav />
+      <PromoTicker />
     </header>
   );
 }

@@ -25,7 +25,7 @@ export default function MobileMenu({ navLinks, isAdmin, isLoggedIn }: Props) {
       </button>
 
       {open && (
-        <div className="absolute inset-x-0 top-full border-b border-navy/10 bg-cream px-4 py-3 shadow-sm">
+        <div className="absolute inset-x-0 top-full z-50 border-b border-navy/10 bg-cream px-4 py-3 shadow-md">
           <nav className="flex flex-col gap-1">
             {navLinks.map((link) => (
               <Link

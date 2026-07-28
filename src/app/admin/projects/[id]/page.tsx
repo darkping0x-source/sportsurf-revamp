@@ -62,13 +62,45 @@ export default async function EditProjectPage({
             ))}
           </select>
         </div>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label htmlFor="completedOn" className="text-sm font-medium text-navy">Completed On</label>
+            <input
+              id="completedOn"
+              name="completedOn"
+              type="date"
+              defaultValue={project.completed_on ?? ""}
+              className={inputClass}
+            />
+          </div>
+          <div>
+            <label htmlFor="infrastructureType" className="text-sm font-medium text-navy">Infrastructure Type</label>
+            <input
+              id="infrastructureType"
+              name="infrastructureType"
+              defaultValue={project.infrastructure_type ?? ""}
+              className={inputClass}
+            />
+          </div>
+        </div>
         <div>
-          <label htmlFor="completedOn" className="text-sm font-medium text-navy">Completed On</label>
+          <label htmlFor="imageUrl" className="text-sm font-medium text-navy">Image URL</label>
           <input
-            id="completedOn"
-            name="completedOn"
-            type="date"
-            defaultValue={project.completed_on ?? ""}
+            id="imageUrl"
+            name="imageUrl"
+            type="url"
+            defaultValue={project.image_url ?? ""}
+            className={inputClass}
+          />
+        </div>
+        <div>
+          <label htmlFor="areaSqm" className="text-sm font-medium text-navy">Area (sqm)</label>
+          <input
+            id="areaSqm"
+            name="areaSqm"
+            type="number"
+            min="0"
+            defaultValue={project.area_sqm ?? ""}
             className={inputClass}
           />
         </div>

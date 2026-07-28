@@ -48,9 +48,23 @@ export default async function NewProjectPage({
             ))}
           </select>
         </div>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label htmlFor="completedOn" className="text-sm font-medium text-navy">Completed On</label>
+            <input id="completedOn" name="completedOn" type="date" className={inputClass} />
+          </div>
+          <div>
+            <label htmlFor="infrastructureType" className="text-sm font-medium text-navy">Infrastructure Type</label>
+            <input id="infrastructureType" name="infrastructureType" placeholder="Synthetic Turf" className={inputClass} />
+          </div>
+        </div>
         <div>
-          <label htmlFor="completedOn" className="text-sm font-medium text-navy">Completed On</label>
-          <input id="completedOn" name="completedOn" type="date" className={inputClass} />
+          <label htmlFor="imageUrl" className="text-sm font-medium text-navy">Image URL</label>
+          <input id="imageUrl" name="imageUrl" type="url" placeholder="https://..." className={inputClass} />
+        </div>
+        <div>
+          <label htmlFor="areaSqm" className="text-sm font-medium text-navy">Area (sqm)</label>
+          <input id="areaSqm" name="areaSqm" type="number" min="0" className={inputClass} />
         </div>
         <div>
           <label htmlFor="description" className="text-sm font-medium text-navy">Description</label>

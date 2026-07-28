@@ -4,7 +4,10 @@ export type ProductCategory =
   | "small_sports"
   | "budget_sports"
   | "sports_academies"
-  | "play_zones";
+  | "play_zones"
+  | "adventure_sports"
+  | "challenge_courses"
+  | "talent_scout";
 
 export const PRODUCT_CATEGORIES: { value: ProductCategory; label: string }[] = [
   { value: "surface_sports", label: "Surface Sports" },
@@ -13,6 +16,9 @@ export const PRODUCT_CATEGORIES: { value: ProductCategory; label: string }[] = [
   { value: "budget_sports", label: "Budget Sports" },
   { value: "sports_academies", label: "Sports Academies" },
   { value: "play_zones", label: "Play Zones" },
+  { value: "adventure_sports", label: "Adventure Sports Games" },
+  { value: "challenge_courses", label: "Challenge Courses" },
+  { value: "talent_scout", label: "Talent Scout Clubs" },
 ];
 
 export interface Product {
@@ -23,6 +29,9 @@ export interface Product {
   description: string;
   specs: Record<string, string>;
   images: string[];
+  imageUrl?: string;
+  rating?: number;
+  reviewCount?: number;
 }
 
 export interface Project {
@@ -35,6 +44,9 @@ export interface Project {
   category: ProductCategory;
   description: string;
   images: string[];
+  imageUrl?: string;
+  areaSqm?: number;
+  infrastructureType?: string;
   completedOn?: string;
 }
 
@@ -46,10 +58,13 @@ export interface Certification {
 
 export interface TimelineEntry {
   year: string;
+  label: string;
   title: string;
 }
 
 export interface Testimonial {
   quote: string;
   attribution: string;
+  role?: string;
+  rating?: number;
 }

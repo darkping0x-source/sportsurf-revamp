@@ -27,6 +27,9 @@ function toProduct(row: {
   description: string;
   specs: Record<string, string> | null;
   images: string[] | null;
+  image_url: string | null;
+  rating: number | null;
+  review_count: number | null;
 }): Product {
   return {
     id: row.id,
@@ -36,6 +39,9 @@ function toProduct(row: {
     description: row.description,
     specs: row.specs ?? {},
     images: row.images ?? [],
+    imageUrl: row.image_url ?? undefined,
+    rating: row.rating ?? undefined,
+    reviewCount: row.review_count ?? undefined,
   };
 }
 
@@ -49,6 +55,9 @@ function toProject(row: {
   category: ProductCategory;
   description: string;
   images: string[] | null;
+  image_url: string | null;
+  area_sqm: number | null;
+  infrastructure_type: string | null;
   completed_on: string | null;
 }): Project {
   return {
@@ -61,6 +70,9 @@ function toProject(row: {
     category: row.category,
     description: row.description,
     images: row.images ?? [],
+    imageUrl: row.image_url ?? undefined,
+    areaSqm: row.area_sqm ?? undefined,
+    infrastructureType: row.infrastructure_type ?? undefined,
     completedOn: row.completed_on ?? undefined,
   };
 }

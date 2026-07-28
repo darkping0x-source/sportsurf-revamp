@@ -21,6 +21,9 @@ interface ProjectInput {
   category: string;
   description: string;
   completedOn: string;
+  imageUrl: string;
+  areaSqm: string;
+  infrastructureType: string;
 }
 
 function readForm(formData: FormData): ProjectInput {
@@ -32,6 +35,9 @@ function readForm(formData: FormData): ProjectInput {
     category: (formData.get("category") as string) ?? "",
     description: ((formData.get("description") as string) ?? "").trim(),
     completedOn: ((formData.get("completedOn") as string) ?? "").trim(),
+    imageUrl: ((formData.get("imageUrl") as string) ?? "").trim(),
+    areaSqm: ((formData.get("areaSqm") as string) ?? "").trim(),
+    infrastructureType: ((formData.get("infrastructureType") as string) ?? "").trim(),
   };
 }
 
@@ -62,6 +68,9 @@ export async function createProject(formData: FormData) {
     category: input.category,
     description: input.description,
     completed_on: input.completedOn || null,
+    image_url: input.imageUrl || null,
+    area_sqm: input.areaSqm ? Number(input.areaSqm) : null,
+    infrastructure_type: input.infrastructureType || null,
   });
 
   if (error) {
@@ -70,6 +79,7 @@ export async function createProject(formData: FormData) {
 
   revalidatePath("/admin/projects");
   revalidatePath("/projects");
+  revalidatePath("/");
   redirect("/admin/projects");
 }
 
@@ -92,6 +102,9 @@ export async function updateProject(id: string, formData: FormData) {
       category: input.category,
       description: input.description,
       completed_on: input.completedOn || null,
+      image_url: input.imageUrl || null,
+      area_sqm: input.areaSqm ? Number(input.areaSqm) : null,
+      infrastructure_type: input.infrastructureType || null,
     })
     .eq("id", id);
 
@@ -101,6 +114,7 @@ export async function updateProject(id: string, formData: FormData) {
 
   revalidatePath("/admin/projects");
   revalidatePath("/projects");
+  revalidatePath("/");
   redirect("/admin/projects");
 }
 
@@ -111,5 +125,6 @@ export async function deleteProject(formData: FormData) {
 
   revalidatePath("/admin/projects");
   revalidatePath("/projects");
+  revalidatePath("/");
   redirect("/admin/projects");
 }

@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getProjectBySlug } from "@/lib/data";
 import { PRODUCT_CATEGORIES } from "@/lib/types";
+import { CATEGORY_ICONS } from "@/lib/category-icons";
 
 export default async function ProjectDetailPage({
   params,
@@ -16,44 +17,67 @@ export default async function ProjectDetailPage({
   }
 
   const categoryLabel = PRODUCT_CATEGORIES.find((c) => c.value === project.category)?.label;
+  const Icon = CATEGORY_ICONS[project.category];
 
   return (
-    <main className="mx-auto max-w-3xl flex-1 px-4 py-16 sm:px-6 lg:px-8">
-      <Link href="/projects" className="text-sm font-medium text-blue hover:text-blue-dark">
-        &larr; All projects
-      </Link>
+    <main className="flex-1">
+      <div className="relative flex h-72 w-full items-center justify-center overflow-hidden bg-gradient-to-br from-navy to-blue-dark sm:h-96">
+        <Icon className="h-40 w-40 text-white/10" strokeWidth={1} />
+      </div>
 
-      <p className="mt-6 text-xs font-medium tracking-wide text-gold uppercase">
-        {categoryLabel} · {project.state}
-      </p>
-      <h1 className="mt-1 text-3xl font-bold text-navy">{project.title}</h1>
-      <p className="mt-2 text-navy/60">{project.location}</p>
+      <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
+        <Link href="/projects" className="text-sm font-medium text-blue hover:text-blue-dark">
+          &larr; All projects
+        </Link>
 
-      <p className="mt-6 leading-relaxed text-navy/80">{project.description}</p>
+        <p className="mt-6 text-xs font-medium tracking-wide text-gold uppercase">
+          {categoryLabel} · {project.state}
+        </p>
+        <h1 className="font-display mt-1 text-3xl font-bold text-navy sm:text-4xl">
+          {project.title}
+        </h1>
+        <p className="mt-2 text-navy/60">{project.location}</p>
 
-      <dl className="mt-8 grid grid-cols-2 gap-4 rounded-lg border border-navy/10 bg-white p-6 sm:grid-cols-3">
-        {project.clientName && (
+        <p className="mt-6 leading-relaxed text-navy/80">{project.description}</p>
+
+        <dl className="mt-8 grid grid-cols-2 gap-4 rounded-lg border border-navy/10 bg-white p-6 sm:grid-cols-3">
+          {project.clientName && (
+            <div>
+              <dt className="text-xs font-semibold tracking-wide text-navy/40 uppercase">Client</dt>
+              <dd className="mt-1 text-navy">{project.clientName}</dd>
+            </div>
+          )}
+          {project.completedOn && (
+            <div>
+              <dt className="text-xs font-semibold tracking-wide text-navy/40 uppercase">Completed</dt>
+              <dd className="mt-1 text-navy">
+                {new Date(project.completedOn).toLocaleDateString("en-IN", {
+                  year: "numeric",
+                  month: "long",
+                })}
+              </dd>
+            </div>
+          )}
           <div>
-            <dt className="text-xs font-semibold tracking-wide text-navy/40 uppercase">Client</dt>
-            <dd className="mt-1 text-navy">{project.clientName}</dd>
+            <dt className="text-xs font-semibold tracking-wide text-navy/40 uppercase">State</dt>
+            <dd className="mt-1 text-navy">{project.state}</dd>
           </div>
-        )}
-        {project.completedOn && (
-          <div>
-            <dt className="text-xs font-semibold tracking-wide text-navy/40 uppercase">Completed</dt>
-            <dd className="mt-1 text-navy">
-              {new Date(project.completedOn).toLocaleDateString("en-IN", {
-                year: "numeric",
-                month: "long",
-              })}
-            </dd>
-          </div>
-        )}
-        <div>
-          <dt className="text-xs font-semibold tracking-wide text-navy/40 uppercase">State</dt>
-          <dd className="mt-1 text-navy">{project.state}</dd>
-        </div>
-      </dl>
+          {project.infrastructureType && (
+            <div>
+              <dt className="text-xs font-semibold tracking-wide text-navy/40 uppercase">
+                Infrastructure
+              </dt>
+              <dd className="mt-1 text-navy">{project.infrastructureType}</dd>
+            </div>
+          )}
+          {project.areaSqm && (
+            <div>
+              <dt className="text-xs font-semibold tracking-wide text-navy/40 uppercase">Area</dt>
+              <dd className="mt-1 text-navy">{project.areaSqm.toLocaleString("en-IN")} sqm</dd>
+            </div>
+          )}
+        </dl>
+      </div>
     </main>
   );
 }

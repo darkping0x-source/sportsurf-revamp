@@ -21,6 +21,9 @@ export async function createProduct(formData: FormData) {
   const name = (formData.get("name") as string)?.trim();
   const category = formData.get("category") as string;
   const description = (formData.get("description") as string)?.trim();
+  const imageUrl = (formData.get("imageUrl") as string)?.trim();
+  const rating = formData.get("rating") as string;
+  const reviewCount = formData.get("reviewCount") as string;
 
   if (!validate(name, category, description)) {
     redirect(`/admin/products/new?error=${encodeURIComponent("Please fill in all fields correctly.")}`);
@@ -32,6 +35,9 @@ export async function createProduct(formData: FormData) {
     category,
     description,
     slug: slugify(name),
+    image_url: imageUrl || null,
+    rating: rating ? Number(rating) : null,
+    review_count: reviewCount ? Number(reviewCount) : null,
   });
 
   if (error) {
@@ -40,6 +46,7 @@ export async function createProduct(formData: FormData) {
 
   revalidatePath("/admin/products");
   revalidatePath("/products");
+  revalidatePath("/");
   redirect("/admin/products");
 }
 
@@ -47,6 +54,9 @@ export async function updateProduct(id: string, formData: FormData) {
   const name = (formData.get("name") as string)?.trim();
   const category = formData.get("category") as string;
   const description = (formData.get("description") as string)?.trim();
+  const imageUrl = (formData.get("imageUrl") as string)?.trim();
+  const rating = formData.get("rating") as string;
+  const reviewCount = formData.get("reviewCount") as string;
 
   if (!validate(name, category, description)) {
     redirect(`/admin/products/${id}?error=${encodeURIComponent("Please fill in all fields correctly.")}`);
@@ -55,7 +65,16 @@ export async function updateProduct(id: string, formData: FormData) {
   const supabase = await createClient();
   const { error } = await supabase
     .from("products")
-    .update({ name, category, description, slug: slugify(name), updated_at: new Date().toISOString() })
+    .update({
+      name,
+      category,
+      description,
+      slug: slugify(name),
+      image_url: imageUrl || null,
+      rating: rating ? Number(rating) : null,
+      review_count: reviewCount ? Number(reviewCount) : null,
+      updated_at: new Date().toISOString(),
+    })
     .eq("id", id);
 
   if (error) {
@@ -64,6 +83,7 @@ export async function updateProduct(id: string, formData: FormData) {
 
   revalidatePath("/admin/products");
   revalidatePath("/products");
+  revalidatePath("/");
   redirect("/admin/products");
 }
 
