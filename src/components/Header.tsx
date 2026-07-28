@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Search, UserRound, ShieldCheck } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
+import MobileMenu from "@/components/MobileMenu";
 
 const NAV_LINKS = [
   { href: "/products", label: "Products" },
@@ -27,7 +28,7 @@ export default async function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-navy/10 bg-cream/95 backdrop-blur">
-      <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3 sm:px-6 lg:gap-6 lg:px-8">
+      <div className="relative mx-auto flex max-w-7xl items-center gap-4 px-4 py-3 sm:px-6 lg:gap-6 lg:px-8">
         <Link href="/" className="shrink-0 text-lg font-bold tracking-tight text-navy">
           SportSurf <span className="text-gold">India</span>
         </Link>
@@ -43,6 +44,8 @@ export default async function Header() {
             </Link>
           ))}
         </nav>
+
+        <MobileMenu navLinks={NAV_LINKS} isAdmin={isAdmin} isLoggedIn={Boolean(user)} />
 
         <form
           action="/search"
