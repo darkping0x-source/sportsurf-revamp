@@ -17,7 +17,7 @@ interface RankedItem {
   reason: string;
 }
 
-function localFallbackSearch(
+export function localFallbackSearch(
   query: string,
   products: Product[],
   projects: Project[],
