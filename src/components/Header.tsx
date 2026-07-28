@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Search, UserRound } from "lucide-react";
+import { Search, UserRound, ShieldCheck } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 
 const NAV_LINKS = [
@@ -14,6 +14,16 @@ export default async function Header() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
+  let isAdmin = false;
+  if (user) {
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", user.id)
+      .single();
+    isAdmin = profile?.role === "admin";
+  }
 
   return (
     <header className="sticky top-0 z-50 border-b border-navy/10 bg-cream/95 backdrop-blur">
@@ -56,6 +66,14 @@ export default async function Header() {
         </Link>
 
         <div className="flex shrink-0 items-center gap-3">
+          {isAdmin && (
+            <Link
+              href="/admin"
+              className="hidden items-center gap-1.5 text-sm font-medium text-navy/70 hover:text-blue sm:flex"
+            >
+              <ShieldCheck className="h-4 w-4" /> Admin
+            </Link>
+          )}
           {user ? (
             <Link
               href="/profile"
