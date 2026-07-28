@@ -1,0 +1,124 @@
+"use client";
+
+import { useState, useRef, useEffect, type FormEvent } from "react";
+import { MessageCircle, X, Send } from "lucide-react";
+
+interface Message {
+  role: "user" | "model";
+  text: string;
+}
+
+const WELCOME: Message = {
+  role: "model",
+  text: "Hi! Ask me about our products, projects, certifications, or how to get a quote.",
+};
+
+export default function Chatbot() {
+  const [open, setOpen] = useState(false);
+  const [messages, setMessages] = useState<Message[]>([WELCOME]);
+  const [input, setInput] = useState("");
+  const [pending, setPending] = useState(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
+  }, [messages, open]);
+
+  async function handleSubmit(e: FormEvent) {
+    e.preventDefault();
+    const text = input.trim();
+    if (!text || pending) return;
+
+    const history = messages.filter((m) => m !== WELCOME);
+    setMessages((prev) => [...prev, { role: "user", text }]);
+    setInput("");
+    setPending(true);
+
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: text, history }),
+      });
+      const data = await res.json();
+      setMessages((prev) => [
+        ...prev,
+        { role: "model", text: data.reply ?? "Something went wrong. Please try again." },
+      ]);
+    } catch {
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "model",
+          text: "I'm having trouble connecting. Please WhatsApp us at +91 99661 09191 or email info@sportsurf.in.",
+        },
+      ]);
+    } finally {
+      setPending(false);
+    }
+  }
+
+  return (
+    <div className="fixed right-4 bottom-4 z-50 sm:right-6 sm:bottom-6">
+      {open && (
+        <div className="mb-3 flex h-[28rem] w-[calc(100vw-2rem)] max-w-sm flex-col overflow-hidden rounded-lg border border-navy/10 bg-white shadow-xl">
+          <div className="flex items-center justify-between bg-navy px-4 py-3 text-white">
+            <p className="font-semibold">SportSurf Assistant</p>
+            <button
+              onClick={() => setOpen(false)}
+              aria-label="Close chat"
+              className="text-white/70 hover:text-white"
+            >
+              <X className="h-5 w-5" />
+            </button>
+          </div>
+
+          <div ref={scrollRef} className="flex-1 space-y-3 overflow-y-auto p-4">
+            {messages.map((m, i) => (
+              <div
+                key={i}
+                className={`max-w-[85%] rounded-lg px-3 py-2 text-sm ${
+                  m.role === "user"
+                    ? "ml-auto bg-blue text-white"
+                    : "bg-grey text-navy"
+                }`}
+              >
+                {m.text}
+              </div>
+            ))}
+            {pending && (
+              <div className="max-w-[85%] rounded-lg bg-grey px-3 py-2 text-sm text-navy/50">
+                Typing...
+              </div>
+            )}
+          </div>
+
+          <form onSubmit={handleSubmit} className="flex items-center gap-2 border-t border-navy/10 p-3">
+            <input
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Ask a question..."
+              className="flex-1 rounded-md border border-navy/15 px-3 py-2 text-sm text-navy focus:border-blue focus:outline-none"
+            />
+            <button
+              type="submit"
+              disabled={pending || !input.trim()}
+              aria-label="Send"
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-blue text-white transition hover:bg-blue-dark disabled:opacity-50"
+            >
+              <Send className="h-4 w-4" />
+            </button>
+          </form>
+        </div>
+      )}
+
+      <button
+        onClick={() => setOpen((v) => !v)}
+        aria-label={open ? "Close chat" : "Open chat"}
+        className="flex h-14 w-14 items-center justify-center rounded-full bg-blue text-white shadow-lg transition hover:bg-blue-dark"
+      >
+        {open ? <X className="h-6 w-6" /> : <MessageCircle className="h-6 w-6" />}
+      </button>
+    </div>
+  );
+}
