@@ -53,7 +53,7 @@ create table projects (
 
 create table certifications (
   id uuid primary key default gen_random_uuid(),
-  name text not null,
+  name text not null unique,
   description text,
   icon text,
   sort_order int not null default 0
@@ -107,17 +107,28 @@ create policy "anyone can submit a quote request" on quote_requests for insert w
 create policy "users read own chat queries" on chat_queries for select using (auth.uid() = user_id);
 create policy "anyone can log a query" on chat_queries for insert with check (true);
 
+-- SECURITY DEFINER bypasses RLS, so this check doesn't recurse back into
+-- profiles' own policies (a plain subquery on profiles here would).
+create function is_admin(uid uuid) returns boolean
+language sql security definer stable
+as $$
+  select exists (select 1 from profiles where id = uid and role = 'admin');
+$$;
+
+create policy "admins manage profiles" on profiles for all
+  using (is_admin(auth.uid()));
+
 -- Admin override: rows readable/writable by admins regardless of ownership.
 create policy "admins manage products" on products for all
-  using (exists (select 1 from profiles p where p.id = auth.uid() and p.role = 'admin'));
+  using (is_admin(auth.uid()));
 create policy "admins manage projects" on projects for all
-  using (exists (select 1 from profiles p where p.id = auth.uid() and p.role = 'admin'));
+  using (is_admin(auth.uid()));
 create policy "admins manage certifications" on certifications for all
-  using (exists (select 1 from profiles p where p.id = auth.uid() and p.role = 'admin'));
+  using (is_admin(auth.uid()));
 create policy "admins manage quote requests" on quote_requests for all
-  using (exists (select 1 from profiles p where p.id = auth.uid() and p.role = 'admin'));
+  using (is_admin(auth.uid()));
 create policy "admins manage chat queries" on chat_queries for all
-  using (exists (select 1 from profiles p where p.id = auth.uid() and p.role = 'admin'));
+  using (is_admin(auth.uid()));
 
 -- Auto-create a profile row when a new auth user signs up.
 create function handle_new_user() returns trigger as $$

@@ -1,4 +1,4 @@
-import ContactForm from "@/components/ContactForm";
+import QuoteForm from "@/components/QuoteForm";
 
 export const metadata = {
   title: "Get a Quote — SportSurf India",
@@ -14,22 +14,7 @@ export default function QuotePage() {
       </p>
 
       <div className="mt-8 rounded-lg border border-navy/10 bg-white p-6">
-        <ContactForm
-          submitLabel="Request Quote"
-          fields={[
-            { name: "name", label: "Name", required: true },
-            { name: "email", label: "Email", type: "email", required: true },
-            { name: "phone", label: "Phone", type: "tel", required: true },
-            { name: "location", label: "Project Location", required: true },
-            { name: "estimatedArea", label: "Estimated Area" },
-            {
-              name: "message",
-              label: "Message",
-              type: "textarea",
-              placeholder: "Please tell us about your project location and estimated area...",
-            },
-          ]}
-        />
+        <QuoteForm />
       </div>
     </main>
   );
