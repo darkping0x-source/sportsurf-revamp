@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Search } from "lucide-react";
 import { searchCatalog } from "@/lib/search";
 import { createClient } from "@/lib/supabase/server";
 import { PRODUCT_CATEGORIES } from "@/lib/types";
@@ -49,6 +50,18 @@ export default async function SearchPage({
           &ldquo;FIFA turf&rdquo;.
         </p>
       )}
+
+      <form action="/search" className="relative mt-6">
+        <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-navy/40" />
+        <input
+          type="search"
+          name="q"
+          defaultValue={query}
+          placeholder="Search products, projects, categories..."
+          autoFocus
+          className="w-full rounded-md border border-navy/15 bg-white py-2.5 pr-3 pl-9 text-navy placeholder:text-navy/40 focus:border-blue focus:outline-none"
+        />
+      </form>
 
       <div className="mt-8 space-y-4">
         {results.map((r) => (
