@@ -60,10 +60,10 @@ export default async function Header() {
         </nav>
 
         <a
-          href="tel:+919966109191"
+          href="tel:+919188671109"
           className="hidden items-center gap-1.5 text-sm font-medium text-navy/70 hover:text-blue lg:flex"
         >
-          <Phone className="h-4 w-4" /> +91 99661 09191
+          <Phone className="h-4 w-4" /> +91 91886 71109
         </a>
 
         <MobileMenu navLinks={NAV_LINKS} isAdmin={isAdmin} isLoggedIn={Boolean(user)} />

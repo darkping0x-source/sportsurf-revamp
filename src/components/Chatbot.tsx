@@ -50,7 +50,7 @@ export default function Chatbot() {
         ...prev,
         {
           role: "model",
-          text: "I'm having trouble connecting. Please WhatsApp us at +91 99661 09191 or email info@sportsurf.in.",
+          text: "I'm having trouble connecting. Please WhatsApp us at +91 91886 71109 or email info@sportsurf.in.",
         },
       ]);
     } finally {
