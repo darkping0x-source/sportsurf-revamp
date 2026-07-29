@@ -2,7 +2,7 @@
 
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
+import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import { isValidEmail, isStrongPassword } from "@/lib/validation";
 
 export async function register(formData: FormData) {
@@ -25,7 +25,20 @@ export async function register(formData: FormData) {
   }
 
   const origin = (await headers()).get("origin");
-  const supabase = await createClient();
+
+  // A plain, non-SSR client here on purpose: @supabase/ssr's createServerClient
+  // hardcodes flowType to "pkce", which requires the code verifier it stashes
+  // in a cookie to still be present when the confirmation link is clicked.
+  // That breaks the moment the link is opened in a different browser, app, or
+  // device than the one used to sign up, which is completely normal for an
+  // email link. The implicit flow embeds the session directly in the link
+  // instead, so it works no matter where it's opened. No session needs to be
+  // persisted from this call, so a throwaway client is fine.
+  const supabase = createSupabaseClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    { auth: { flowType: "implicit", persistSession: false, autoRefreshToken: false } },
+  );
 
   const { error } = await supabase.auth.signUp({
     email,
