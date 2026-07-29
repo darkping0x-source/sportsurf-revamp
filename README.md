@@ -50,7 +50,51 @@ wrong with it:
 - Tested it, unit tests, an integration test, and a manual pass through every page
 - Deployed it live on Vercel
 
-## 4. Technologies Used
+## 4. Features
+
+Everything the site actually has, grouped by area.
+
+**Main site, for everyone:**
+- Homepage with hero banner, category grid, stats, project showcase, testimonials, and
+  certification badges
+- Category dropdown menu in the header, all 9 categories, works the same on phone and desktop
+- Products page with filters right there on the page
+- Product pages with ratings, reviews, and specs
+- Projects page, and a detail page for each project
+- About and Contact pages
+- Quote request page, split into sections (project details, client info, urgency, extra
+  notes), also shows what's included in a quote
+- Scrolling announcement ribbon in the header
+- Works properly on phone, tablet, and desktop
+
+**AI features:**
+- AI search bar that understands normal sentences, not just exact keywords, powered by Gemini
+- AI chatbot on every page, answers using our real product data only, doesn't make things up,
+  points people to WhatsApp or email if it can't help
+- Every search and chat message gets logged so it can be checked later
+
+**Account features, after logging in:**
+- Signup and login with email verification
+- Proper checks on the forms, email format, password strength, passwords matching
+- A dashboard showing your quote stats and recent activity
+- A page listing all your quote requests
+- Notifications when one of your quotes gets approved or rejected
+- Account settings to update your name and phone
+- Quote form fills in your name, email, and phone automatically if you're already logged in
+
+**Admin panel, admin only:**
+- Add, edit, or delete products and projects
+- Approve or reject quote requests that come in
+- See a log of every search and chatbot conversation
+- Manage user roles, make someone an admin
+- Overview page with basic numbers
+
+**Other:**
+- Same colors and same overall feel as the original site
+- Tested with unit tests, an integration test, and a manual pass through every page
+- Deployed live on Vercel
+
+## 5. Technologies Used
 
 I asked Claude what stack made sense for a project like this, and picked from what it
 suggested based on what actually solved a problem I had, not just because it was suggested.
@@ -70,7 +114,7 @@ suggested based on what actually solved a problem I had, not just because it was
 - **Vitest + Playwright**: Vitest for quick unit tests, Playwright for testing the real
   signup to quote request flow like an actual user would click through it.
 
-## 5. AI I Used
+## 6. AI I Used
 
 I used Claude to help me plan and build this project. Before starting any actual coding, I gave
 it a starting prompt telling it what role to play, something like "act as a senior software
@@ -78,7 +122,7 @@ architect and full stack developer, help me build this step by step, ask before 
 risky." This kept it focused on thinking through each decision properly instead of just
 dumping code at me.
 
-## 6. Prompts I Used
+## 7. Prompts I Used
 
 Not putting every single prompt here, there were a lot, just a few examples from different
 stages of the build.
@@ -102,7 +146,7 @@ stages of the build.
 **Deployment:**
 > "I think we are ready to deploy this, make whatever changes we need for Vercel."
 
-## 7. Challenges I Faced
+## 8. Challenges I Faced
 
 - Free stock photo sources kept giving broken links, unrelated photos, or even non commercial
   licensed images, had to manually check and swap out several
@@ -115,7 +159,7 @@ stages of the build.
 - Supabase's free email sending is limited to 2 emails an hour, had to keep that in mind while
   testing signups
 
-## 8. Quick Summary
+## 9. Quick Summary
 
 | Problem on real site | What I did instead |
 |---|---|
