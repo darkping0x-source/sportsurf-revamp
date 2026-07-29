@@ -30,7 +30,7 @@ export default async function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-navy/10 bg-cream/95 backdrop-blur">
-      <div className="relative mx-auto flex max-w-7xl items-center gap-4 px-4 py-3 sm:px-6 lg:gap-6 lg:px-8">
+      <div className="relative mx-auto flex max-w-7xl items-center gap-2 px-4 py-3 sm:gap-4 sm:px-6 lg:gap-6 lg:px-8">
         <Link href="/" className="flex shrink-0 items-center gap-2.5">
           <span className="flex h-9 w-9 items-center justify-center rounded-md bg-navy text-lg font-bold text-white">
             S
@@ -68,7 +68,7 @@ export default async function Header() {
 
         <MobileMenu navLinks={NAV_LINKS} isAdmin={isAdmin} isLoggedIn={Boolean(user)} />
 
-        <div className="ml-auto flex shrink-0 items-center gap-3">
+        <div className="ml-auto flex shrink-0 items-center gap-1.5 sm:gap-3">
           <form action="/search" className="relative hidden w-48 sm:block lg:w-64">
             <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-navy/40" />
             <input
@@ -112,9 +112,11 @@ export default async function Header() {
           )}
           <Link
             href="/quote"
-            className="flex items-center gap-1.5 rounded-md bg-gold px-4 py-2 text-sm font-semibold text-navy transition hover:bg-amber"
+            className="flex items-center gap-1.5 rounded-md bg-gold px-3 py-2 text-sm font-semibold text-navy transition hover:bg-amber sm:px-4"
           >
-            Get a Quote <ArrowRight className="h-3.5 w-3.5" />
+            <span className="sm:hidden">Quote</span>
+            <span className="hidden sm:inline">Get a Quote</span>
+            <ArrowRight className="hidden h-3.5 w-3.5 sm:inline-block" />
           </Link>
         </div>
       </div>
