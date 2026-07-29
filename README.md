@@ -1,8 +1,8 @@
 # SportSurf India Revamp
 
 This is my submission for the SportSurf hiring task. Below I explain what was asked, what
-problems I found on their real site, what I built to fix it, how I used AI to help me, and the
-challenges I faced along the way.
+problems I found on their real site, what I built to fix it, the tech I used and why, how AI
+helped me along the way, and the challenges I ran into.
 
 ## 1. The Task
 
@@ -12,11 +12,11 @@ I got this task by mail as part of a selection process. Here is basically what t
 > ai chatbot to be added. user regn / validation to be added. backend dashboard to be made for
 > content loading, validation, query management, etc more features. use any tech stack that
 > suits without errors. use same colors. chk for responsiveness. test all features after
-> completion. this is task it for finalsiing the offer and releasing offer letter.
+> completion.
 
-So basically, rebuild sportsurf.in, keep the same UI and colors, add AI search + AI chatbot,
-add proper signup/login, and build a backend/admin panel, and it all had to work with no errors
-since this was directly tied to my offer letter.
+So basically, rebuild sportsurf.in, keep the same UI and colors, add AI search and an AI
+chatbot, add proper signup/login, and build a backend/admin panel, and it all had to work with
+no errors.
 
 ## 2. Issues With The Current Site
 
@@ -50,7 +50,27 @@ wrong with it:
 - Tested it, unit tests, an integration test, and a manual pass through every page
 - Deployed it live on Vercel
 
-## 4. AI I Used
+## 4. Technologies Used
+
+I asked Claude what stack made sense for a project like this, and picked from what it
+suggested based on what actually solved a problem I had, not just because it was suggested.
+
+- **Next.js (App Router) + TypeScript**: one project handles both the pages and the backend
+  API routes, so I didn't need a separate backend server. TypeScript catches dumb mistakes
+  before they turn into bugs.
+- **Tailwind CSS**: fastest way to match the original site's exact colors and spacing without
+  writing a pile of custom CSS files by hand.
+- **Supabase**: database, login/auth, and file storage in one place, and it has a free tier,
+  which mattered since this wasn't a paid project. Also made role based access (admin vs
+  normal user) way easier than building that myself.
+- **Google Gemini**: used for the AI search and the chatbot, picked mainly because it has an
+  actual free tier, so the AI side of this doesn't need a paid key to run.
+- **Vercel**: basically built for Next.js, deploying was just connecting the GitHub repo, no
+  extra setup needed.
+- **Vitest + Playwright**: Vitest for quick unit tests, Playwright for testing the real
+  signup to quote request flow like an actual user would click through it.
+
+## 5. AI I Used
 
 I used Claude to help me plan and build this project. Before starting any actual coding, I gave
 it a starting prompt telling it what role to play, something like "act as a senior software
@@ -58,7 +78,7 @@ architect and full stack developer, help me build this step by step, ask before 
 risky." This kept it focused on thinking through each decision properly instead of just
 dumping code at me.
 
-## 5. Prompts I Used
+## 6. Prompts I Used
 
 Not putting every single prompt here, there were a lot, just a few examples from different
 stages of the build.
@@ -82,9 +102,7 @@ stages of the build.
 **Deployment:**
 > "I think we are ready to deploy this, make whatever changes we need for Vercel."
 
-(Full detailed prompt log is in [`PROMPTS.md`](./PROMPTS.md) if needed.)
-
-## 6. Challenges I Faced
+## 7. Challenges I Faced
 
 - Free stock photo sources kept giving broken links, unrelated photos, or even non commercial
   licensed images, had to manually check and swap out several
@@ -97,9 +115,7 @@ stages of the build.
 - Supabase's free email sending is limited to 2 emails an hour, had to keep that in mind while
   testing signups
 
-## 7. Quick Summary
-
-Full version with numbers is in [`revamp.md`](./revamp.md).
+## 8. Quick Summary
 
 | Problem on real site | What I did instead |
 |---|---|
