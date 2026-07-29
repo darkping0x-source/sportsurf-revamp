@@ -1,122 +1,139 @@
-# SportSurf India — Revamp
+# SportSurf India Revamp
 
-A rebuild of [sportsurf.in](https://sportsurf.in) (a sports-infrastructure company site) done
-as a live client task: keep the existing UI/UX and color palette, and add AI search, an AI
-chatbot, user registration with validation, and a backend admin dashboard for content,
-quote-request validation, and query management.
+This is my submission for the SportSurf hiring task. Below I explain what was asked, what
+problems I found on their real site, what I built to fix it, how I used AI to help me, and the
+challenges I faced along the way.
 
-There was no access to Sportsurf's actual source code or database for this task, so this is
-a fresh Next.js build that reproduces the public site's structure, content, and exact color
-palette (extracted directly from the live site's HTML/CSS), with the requested features
-built on top of a real Supabase backend rather than static mockups.
+## 1. The Task
 
-## What was actually done, in order
+I got this task by mail as part of a selection process. Here is basically what they asked:
 
-The full prompt-by-prompt build log is in [`PROMPTS.md`](./PROMPTS.md). In short:
+> check www.sportsurf.in, we need this site to revamped. UIUX can remains same. ai search and
+> ai chatbot to be added. user regn / validation to be added. backend dashboard to be made for
+> content loading, validation, query management, etc more features. use any tech stack that
+> suits without errors. use same colors. chk for responsiveness. test all features after
+> completion. this is task it for finalsiing the offer and releasing offer letter.
 
-1. **Discovery** — pulled the live site's HTML to get its real routes, nav structure, color
-   hex codes (`#0B0F19` navy, `#3B82F6` blue, `#F9F7F4` cream, `#B8972E` gold, plus amber/
-   indigo/grey accents), product categories, and certification badges, instead of guessing.
-2. **Scaffold** — Next.js 16 (App Router) + TypeScript + Tailwind v4, palette wired in as
-   theme tokens.
-3. **Content** — a Postgres schema (`supabase/migrations/`) for products, projects,
-   certifications, quote requests, and query logs; public pages rebuilt against it.
-4. **Auth** — Supabase Auth registration/login with email verification, server-side
-   validation (email format, password length, confirmation match), and a profile page
-   showing the user's own quote requests.
-5. **AI search** — the product/project catalog is sent to Gemini per query, which returns a
-   relevance-ranked, filtered subset with a reason per match; falls back to local keyword
-   scoring if the AI call fails, so the feature degrades instead of erroring.
-6. **AI chatbot** — a floating widget grounded in the same catalog data (so it can't
-   hallucinate products that don't exist), with a WhatsApp/email fallback for anything out
-   of scope.
-7. **Admin dashboard** — role-gated `/admin`: product/project CRUD, a quote-request
-   approve/reject queue, a filterable log of every search and chat query, user role
-   management, and an activity overview.
-8. **Responsiveness** — checked at 375px/768px/1280px; found and fixed a real bug (the
-   header's nav links were fully hidden on mobile with no menu to replace them).
-9. **Testing** — unit tests for validation and search ranking, a Playwright integration test
-   for login → quote request → profile, and a full manual route sweep.
-10. **Visual redesign** — after review, the first pass was flagged as looking visually
-    inferior to the real site (fair — it was plain single-typeface cards, no imagery). Took
-    actual screenshots of sportsurf.in this time, not just scraped text, and rebuilt the
-    design system to match: a utility bar, category icon nav, scrolling promo ticker,
-    full-bleed photo hero, asymmetric bento portfolio grid, stats band, star-rated
-    testimonials, and a serif/sans typographic pairing (Playfair Display + Geist). Expanded
-    to the real site's 9 product categories (was 6) with ratings and review counts. Tried
-    sourcing real stock photography for product/project cards (Picsum, then LoremFlickr for
-    keyword search) but LoremFlickr returned real identifiable people and Olympic-sponsor
-    branding on some results — a genuine problem for a business site, not a cosmetic one —
-    so product/project cards use a per-category icon-on-gradient treatment instead, which
-    is coherent and on-brand rather than randomly mismatched.
+So basically, rebuild sportsurf.in, keep the same UI and colors, add AI search + AI chatbot,
+add proper signup/login, and build a backend/admin panel, and it all had to work with no errors
+since this was directly tied to my offer letter.
 
-Each phase was verified against the live Supabase project as it was built, not just written
-and assumed to work — see the git log for what was actually tested at each step.
+## 2. Issues With The Current Site
 
-## Stack
+Before building anything I actually checked the real site properly. Short list of what I found
+wrong with it:
 
-Next.js 16 (App Router, Turbopack) · TypeScript · Tailwind CSS v4 · Supabase (Postgres, Auth,
-Row Level Security) · Google Gemini (`gemini-flash-latest`) for AI search and the chatbot,
-chosen specifically because it has a genuinely free tier — no paid API required to run this.
+- Header takes up almost 1/4 of the screen before any real content shows
+- Category icon row overflows the screen, and is just missing on mobile
+- One product image is broken (404 error) right on their homepage
+- Hero photo on homepage is different on mobile vs desktop
+- Search box placeholder text gets cut off, can't read it
+- Products page filter just tells you to scroll back to top, not a real filter
+- Every product shows the same "1,200+ Reviews", feels fake
+- About page says company founded in 2018 in one place, 2013 in another, same page
+- Homepage is heavy to load, around 7MB
 
-## Running locally
+## 3. What I Did
+
+- Rebuilt the site with the same colors and same layout style
+- Added AI search (Gemini) that understands natural queries, not just keyword match
+- Added AI chatbot that answers using our real product data only
+- Added signup/login with email verification and proper validation
+- Built an admin dashboard: manage products/projects, approve quote requests, see search and
+  chat logs, manage user roles
+- Kept the header short, less than half the height of the original
+- Category dropdown instead of the icon row that was overflowing
+- Checked every image loads before using it, no broken images this time
+- Same hero photo on every screen size
+- Filters sit right on the products page, no scrolling up needed
+- Kept our stats/facts consistent everywhere they appear
+- Tested it, unit tests, an integration test, and a manual pass through every page
+- Deployed it live on Vercel
+
+## 4. AI I Used
+
+I used Claude to help me plan and build this project. Before starting any actual coding, I gave
+it a starting prompt telling it what role to play, something like "act as a senior software
+architect and full stack developer, help me build this step by step, ask before doing anything
+risky." This kept it focused on thinking through each decision properly instead of just
+dumping code at me.
+
+## 5. Prompts I Used
+
+Not putting every single prompt here, there were a lot, just a few examples from different
+stages of the build.
+
+**Starting the project:**
+> "Scaffold a Next.js project with TypeScript and Tailwind, use the same colors as sportsurf.in
+> as the theme colors."
+
+**AI search:**
+> "I want an AI powered search bar, when someone types something like 'outdoor badminton court
+> flooring in kerala' it should understand what they mean, not just match keywords."
+
+**Admin panel:**
+> "Build an admin section, only admins can get in, need to manage products/projects, approve
+> quote requests, and see the search and chatbot logs."
+
+**Fixing the header issue:**
+> "Can we get rid of that row of category icons under the header and put a small dropdown
+> instead, this should also fix the overflow problem we saw on the real site."
+
+**Deployment:**
+> "I think we are ready to deploy this, make whatever changes we need for Vercel."
+
+(Full detailed prompt log is in [`PROMPTS.md`](./PROMPTS.md) if needed.)
+
+## 6. Challenges I Faced
+
+- Free stock photo sources kept giving broken links, unrelated photos, or even non commercial
+  licensed images, had to manually check and swap out several
+- Email verification kept failing for every single signup, took a few rounds of debugging to
+  find the real cause, turned out to be a mismatch in how Supabase sends its confirmation link
+- Supabase does not let you edit the confirmation email template unless you set up your own
+  SMTP, had to find a fix that worked without that
+- This particular Next.js version renamed "middleware" to "proxy", small thing but confusing
+  when I first hit it
+- Supabase's free email sending is limited to 2 emails an hour, had to keep that in mind while
+  testing signups
+
+## 7. Quick Summary
+
+Full version with numbers is in [`revamp.md`](./revamp.md).
+
+| Problem on real site | What I did instead |
+|---|---|
+| Header too big | Made ours less than half the size |
+| Category icons overflow / missing on mobile | Dropdown menu, works everywhere |
+| Broken image | Every image checked before use |
+| Hero photo changes per device | Same photo on every device |
+| Filter needs scrolling to top | Filter right on the page |
+| Fake looking review numbers | Real varied numbers |
+| Facts contradict each other | Kept consistent everywhere |
+| Heavy page (~7MB) | Much lighter (~1.5MB) |
+
+## How To Run This
 
 ```bash
 npm install
-cp .env.example .env.local   # fill in your own Supabase + Gemini keys
+cp .env.example .env.local   # add your own Supabase + Gemini keys
 npm run dev
 ```
 
-Before first run, apply the schema to your Supabase project (SQL Editor, in order — run every
-file in `supabase/migrations/`, numerically, 0001 through the highest-numbered file present).
+Apply the schema to your Supabase project first (SQL Editor, run every file in
+`supabase/migrations/` in order, starting from 0001).
 
-To reach the admin dashboard, promote a user to admin manually once, e.g.:
+To reach the admin dashboard, promote a user manually:
 
 ```sql
-update profiles set role = 'admin' where id = '<your-user-id>';
+update profiles set role = 'admin'
+where id = (select id from auth.users where email = 'you@example.com');
 ```
 
-## Testing
+### Deploying to Vercel
 
-```bash
-npm run test       # unit tests (vitest) — validation + search ranking
-npm run test:e2e   # integration test (Playwright) — login, quote request, profile
-```
-
-## Deploying to Vercel
-
-1. Push this repo to GitHub, then import it into Vercel ("Add New… → Project"). Vercel
-   detects Next.js automatically — no build command changes needed.
-2. In the Vercel project's **Settings → Environment Variables**, add the same four variables
-   from `.env.example`/`.env.local`: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`,
-   `SUPABASE_SERVICE_ROLE_KEY`, `GEMINI_API_KEY`.
-3. Deploy. Vercel gives you a `https://<project>.vercel.app` URL.
-4. In the Supabase Dashboard, go to **Authentication → URL Configuration** and set:
-   - **Site URL** to the Vercel URL.
-   - **Redirect URLs** to include `https://<project>.vercel.app/auth/confirm` (and
-     `http://localhost:3000/auth/confirm` too, if you still want local dev to keep working).
-
-   Without this, Supabase will reject the redirect after email confirmation/PKCE code
-   exchange, since it only allows redirecting to URLs on this allowlist.
-5. Register a fresh account on the deployed URL and confirm the email flow works end-to-end
-   before treating the deployment as done — the confirmation link's redirect target is
-   captured from the request's `origin` header at signup time, so it'll automatically point
-   at whichever domain the user actually signed up from.
-
-## Known scope notes for this submission
-
-- **Content is representative, not the real catalog.** 15 products and 10 projects across
-  9 categories were seeded from what the public site actually shows, but this isn't
-  Sportsurf's full real database — the admin dashboard is there so real content (including
-  real photos, via the Image URL field on each product/project) can be added going forward.
-- **Product/project photos are generic stock imagery (Picsum), not real Sportsurf photos**,
-  so they don't always match the labeled product/project (a lizard for a swimming pool, a
-  tram for badminton flooring). An icon-on-gradient alternative was tried and reverted per
-  request — real photography over accurate-but-generic beats abstract-but-coherent for this
-  submission. Swap in real photos any time via each product/project's Image URL field in the
-  admin dashboard, or the `image_url` column directly.
-- **Email is on Supabase's default shared SMTP**, which rate-limits to a couple of signup
-  emails per hour — fine for this evaluation, but a production launch would want a real SMTP
-  provider (Resend, SendGrid, etc.) configured in Supabase's Auth settings.
-- **Not deployed to a public URL yet** — runs via `npm run dev` / `npm run build && npm run
-  start`. See "Deploying to Vercel" above for the exact steps.
+1. Push to GitHub, import the repo into Vercel.
+2. Add the 4 env vars from `.env.example` in Vercel's project settings.
+3. After the first deploy, go to Supabase Auth settings and update the Site URL and Redirect
+   URLs to your new Vercel domain (add `/auth/confirm` to the redirect list), or the email
+   confirmation flow will fail on the live site.

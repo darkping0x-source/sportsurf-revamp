@@ -40,6 +40,12 @@ yarn-error.log*
 # vercel
 .vercel
 
+# local-only prompt drafts — never commit these
+/prompts
+
+# internal competitor/defect analysis — never commit this
+/revamp.md
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
