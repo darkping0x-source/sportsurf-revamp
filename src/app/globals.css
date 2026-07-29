@@ -39,6 +39,19 @@ body {
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
 }
 
+/* Browsers default <button> to cursor: default, not pointer (only links get
+   that automatically), and Tailwind's reset doesn't change it either. */
+button:not(:disabled),
+[role="button"]:not(:disabled),
+select {
+  cursor: pointer;
+}
+
+button:disabled,
+[role="button"][aria-disabled="true"] {
+  cursor: not-allowed;
+}
+
 @keyframes marquee {
   from {
     transform: translateX(0);
