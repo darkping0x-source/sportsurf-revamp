@@ -33,8 +33,7 @@
   --font-display: var(--font-display);
 }
 
-html,
-body {
+html {
   overflow-x: hidden;
 }
 
