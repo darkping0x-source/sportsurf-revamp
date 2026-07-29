@@ -70,7 +70,6 @@ export default function Chatbot() {
                   AI
                 </span>
               </p>
-              <p className="text-xs text-white/60">Automated, not a human</p>
             </div>
             <button
               onClick={() => setOpen(false)}
