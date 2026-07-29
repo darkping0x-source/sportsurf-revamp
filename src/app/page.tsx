@@ -98,7 +98,7 @@ export default async function Home() {
             <Link
               key={cat.value}
               href={`/products?category=${cat.value}`}
-              className={`group relative overflow-hidden rounded-xl ${spans[i]}`}
+              className={`group relative h-56 overflow-hidden rounded-xl sm:h-64 lg:h-auto ${spans[i]}`}
             >
               <Image
                 src={CATEGORY_IMAGES[cat.value]}
