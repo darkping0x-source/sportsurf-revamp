@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, type FormEvent } from "react";
-import { MessageCircle, X, Send } from "lucide-react";
+import { Bot, X, Send } from "lucide-react";
 
 interface Message {
   role: "user" | "model";
@@ -10,7 +10,7 @@ interface Message {
 
 const WELCOME: Message = {
   role: "model",
-  text: "Hi! Ask me about our products, projects, certifications, or how to get a quote.",
+  text: "Hi, I'm SportSurf's AI assistant. Ask me about our products, projects, certifications, or how to get a quote.",
 };
 
 export default function Chatbot() {
@@ -63,7 +63,15 @@ export default function Chatbot() {
       {open && (
         <div className="mb-3 flex h-[28rem] w-[calc(100vw-2rem)] max-w-sm flex-col overflow-hidden rounded-lg border border-navy/10 bg-white shadow-xl">
           <div className="flex items-center justify-between bg-navy px-4 py-3 text-white">
-            <p className="font-semibold">SportSurf Assistant</p>
+            <div>
+              <p className="flex items-center gap-1.5 font-semibold">
+                SportSurf Assistant
+                <span className="rounded bg-gold px-1.5 py-0.5 text-[10px] font-bold tracking-wide text-navy uppercase">
+                  AI
+                </span>
+              </p>
+              <p className="text-xs text-white/60">Automated, not a human</p>
+            </div>
             <button
               onClick={() => setOpen(false)}
               aria-label="Close chat"
@@ -112,13 +120,20 @@ export default function Chatbot() {
         </div>
       )}
 
-      <button
-        onClick={() => setOpen((v) => !v)}
-        aria-label={open ? "Close chat" : "Open chat"}
-        className="flex h-14 w-14 items-center justify-center rounded-full bg-gold text-navy shadow-lg transition hover:bg-amber"
-      >
-        {open ? <X className="h-6 w-6" /> : <MessageCircle className="h-6 w-6" />}
-      </button>
+      <div className="flex items-center justify-end gap-2">
+        {!open && (
+          <span className="hidden items-center gap-1.5 rounded-full bg-navy px-3 py-2 text-xs font-semibold text-white shadow-lg sm:flex">
+            <Bot className="h-3.5 w-3.5 text-gold" /> Ask our AI
+          </span>
+        )}
+        <button
+          onClick={() => setOpen((v) => !v)}
+          aria-label={open ? "Close chat" : "Open AI chat assistant"}
+          className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-gold text-navy shadow-lg transition hover:bg-amber"
+        >
+          {open ? <X className="h-6 w-6" /> : <Bot className="h-6 w-6" />}
+        </button>
+      </div>
     </div>
   );
 }
