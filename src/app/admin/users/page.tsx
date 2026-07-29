@@ -2,7 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { setUserRole } from "./actions";
 
-export const metadata = { title: "Users — Admin" };
+export const metadata = { title: "Users | Admin" };
 
 export default async function AdminUsersPage() {
   const supabase = await createClient();
@@ -26,8 +26,8 @@ export default async function AdminUsersPage() {
             className="flex items-center justify-between gap-4 rounded-lg border border-navy/10 bg-white p-4"
           >
             <div>
-              <p className="font-semibold text-navy">{p.full_name || "—"}</p>
-              <p className="text-sm text-navy/60">{emailById.get(p.id) ?? "—"}</p>
+              <p className="font-semibold text-navy">{p.full_name || "Not provided"}</p>
+              <p className="text-sm text-navy/60">{emailById.get(p.id) ?? "Not provided"}</p>
               <p className="mt-1 text-xs text-navy/40">
                 Joined {new Date(p.created_at).toLocaleDateString("en-IN")}
               </p>

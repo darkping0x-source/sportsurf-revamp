@@ -4,7 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { PRODUCT_CATEGORIES } from "@/lib/types";
 
 export const metadata = {
-  title: "Search — SportSurf India",
+  title: "Search | SportSurf India",
 };
 
 export default async function SearchPage({

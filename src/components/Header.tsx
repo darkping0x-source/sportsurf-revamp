@@ -1,9 +1,8 @@
 import Link from "next/link";
-import { Search, UserRound, ShieldCheck, ArrowRight } from "lucide-react";
+import { Search, UserRound, ShieldCheck, ArrowRight, Phone } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import MobileMenu from "@/components/MobileMenu";
-import UtilityBar from "@/components/UtilityBar";
-import CategoryNav from "@/components/CategoryNav";
+import CategoryMenu from "@/components/CategoryMenu";
 import PromoTicker from "@/components/PromoTicker";
 
 const NAV_LINKS = [
@@ -31,8 +30,6 @@ export default async function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-navy/10 bg-cream/95 backdrop-blur">
-      <UtilityBar isLoggedIn={Boolean(user)} />
-
       <div className="relative mx-auto flex max-w-7xl items-center gap-4 px-4 py-3 sm:px-6 lg:gap-6 lg:px-8">
         <Link href="/" className="flex shrink-0 items-center gap-2.5">
           <span className="flex h-9 w-9 items-center justify-center rounded-md bg-navy text-lg font-bold text-white">
@@ -48,6 +45,8 @@ export default async function Header() {
           </span>
         </Link>
 
+        <CategoryMenu />
+
         <nav className="hidden items-center gap-6 md:flex">
           {NAV_LINKS.map((link) => (
             <Link
@@ -60,30 +59,34 @@ export default async function Header() {
           ))}
         </nav>
 
+        <a
+          href="tel:+919966109191"
+          className="hidden items-center gap-1.5 text-sm font-medium text-navy/70 hover:text-blue lg:flex"
+        >
+          <Phone className="h-4 w-4" /> +91 99661 09191
+        </a>
+
         <MobileMenu navLinks={NAV_LINKS} isAdmin={isAdmin} isLoggedIn={Boolean(user)} />
 
-        <form
-          action="/search"
-          className="relative ml-auto hidden max-w-sm flex-1 sm:block"
-        >
-          <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-navy/40" />
-          <input
-            type="search"
-            name="q"
-            placeholder="Search for surface sports, academies, play zones..."
-            className="w-full rounded-md border border-navy/15 bg-white py-2 pr-3 pl-9 text-sm text-navy placeholder:text-navy/40 focus:border-blue focus:outline-none"
-          />
-        </form>
+        <div className="ml-auto flex shrink-0 items-center gap-3">
+          <form action="/search" className="relative hidden w-48 sm:block lg:w-64">
+            <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-navy/40" />
+            <input
+              type="search"
+              name="q"
+              placeholder="Search products, academies..."
+              className="w-full rounded-md border border-navy/15 bg-white py-2 pr-3 pl-9 text-sm text-navy placeholder:text-navy/40 focus:border-blue focus:outline-none"
+            />
+          </form>
 
-        <Link
-          href="/search"
-          aria-label="Search"
-          className="ml-auto flex h-9 w-9 shrink-0 items-center justify-center rounded-md text-navy/70 hover:text-blue sm:hidden"
-        >
-          <Search className="h-5 w-5" />
-        </Link>
+          <Link
+            href="/search"
+            aria-label="Search"
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md text-navy/70 hover:text-blue sm:hidden"
+          >
+            <Search className="h-5 w-5" />
+          </Link>
 
-        <div className="flex shrink-0 items-center gap-3">
           {isAdmin && (
             <Link
               href="/admin"
@@ -116,7 +119,6 @@ export default async function Header() {
         </div>
       </div>
 
-      <CategoryNav />
       <PromoTicker />
     </header>
   );

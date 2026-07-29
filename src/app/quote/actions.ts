@@ -17,6 +17,7 @@ export async function submitQuoteRequest(
   const phone = (formData.get("phone") as string)?.trim();
   const location = (formData.get("location") as string)?.trim();
   const estimatedArea = (formData.get("estimatedArea") as string)?.trim();
+  const urgency = (formData.get("urgency") as string)?.trim();
   const message = (formData.get("message") as string)?.trim();
 
   if (!name || !email || !phone || !location) {
@@ -38,6 +39,7 @@ export async function submitQuoteRequest(
     phone,
     location,
     estimated_area: estimatedArea || null,
+    urgency: urgency || null,
     message: message || null,
   });
 
@@ -47,6 +49,6 @@ export async function submitQuoteRequest(
 
   return {
     status: "success",
-    message: "Thanks — we've received your details and will get back to you shortly.",
+    message: "Thanks, we've received your details and will get back to you shortly.",
   };
 }

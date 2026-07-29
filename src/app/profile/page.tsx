@@ -1,10 +1,10 @@
-import { redirect } from "next/navigation";
-import { LogOut } from "lucide-react";
+import Link from "next/link";
+import { ClipboardList, Clock3, CheckCircle2, ChevronRight } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
-import { signOut } from "./actions";
+import { formatRelativeTime } from "@/lib/format";
 
 export const metadata = {
-  title: "Your Profile — SportSurf India",
+  title: "Dashboard | SportSurf India",
 };
 
 const STATUS_STYLES: Record<string, string> = {
@@ -13,69 +13,105 @@ const STATUS_STYLES: Record<string, string> = {
   pending: "bg-amber-100 text-amber-700",
 };
 
-export default async function ProfilePage() {
+export default async function DashboardPage() {
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) {
-    redirect("/login?next=/profile");
-  }
+  const { data: quotes } = await supabase
+    .from("quote_requests")
+    .select("id, location, estimated_area, status, created_at, updated_at")
+    .eq("user_id", user!.id)
+    .order("created_at", { ascending: false });
 
-  const [{ data: profile }, { data: quoteRequests }] = await Promise.all([
-    supabase.from("profiles").select("full_name, created_at").eq("id", user.id).single(),
-    supabase
-      .from("quote_requests")
-      .select("id, location, estimated_area, status, created_at")
-      .eq("user_id", user.id)
-      .order("created_at", { ascending: false }),
-  ]);
+  const all = quotes ?? [];
+  const pending = all.filter((q) => q.status === "pending").length;
+  const approved = all.filter((q) => q.status === "approved").length;
+  const recent = all.slice(0, 4);
+
+  const STATS = [
+    { label: "Total Quotes", value: all.length, icon: ClipboardList },
+    { label: "Pending Review", value: pending, icon: Clock3 },
+    { label: "Approved", value: approved, icon: CheckCircle2 },
+  ];
 
   return (
-    <main className="mx-auto max-w-3xl flex-1 px-4 py-16 sm:px-6 lg:px-8">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-navy">{profile?.full_name || "Your Profile"}</h1>
-          <p className="mt-1 text-navy/60">{user.email}</p>
-        </div>
-        <form action={signOut}>
-          <button
-            type="submit"
-            className="flex items-center gap-2 rounded-md border border-navy/15 px-4 py-2 text-sm font-medium text-navy transition hover:border-blue hover:text-blue"
-          >
-            <LogOut className="h-4 w-4" /> Sign Out
-          </button>
-        </form>
+    <div>
+      <div className="grid gap-4 sm:grid-cols-3">
+        {STATS.map((stat) => {
+          const Icon = stat.icon;
+          return (
+            <div
+              key={stat.label}
+              className="rounded-lg border border-navy/10 bg-white p-5 text-center"
+            >
+              <Icon className="mx-auto h-5 w-5 text-gold" />
+              <p className="mt-3 text-xs font-semibold tracking-[0.15em] text-navy/50 uppercase">
+                {stat.label}
+              </p>
+              <p className="font-display mt-1 text-3xl font-bold text-navy">
+                {String(stat.value).padStart(2, "0")}
+              </p>
+            </div>
+          );
+        })}
       </div>
 
-      <section className="mt-10">
-        <h2 className="text-xl font-bold text-navy">Your Quote Requests</h2>
-        {quoteRequests && quoteRequests.length > 0 ? (
-          <ul className="mt-4 space-y-3">
-            {quoteRequests.map((q) => (
-              <li key={q.id} className="rounded-lg border border-navy/10 bg-white p-4">
-                <div className="flex items-center justify-between gap-4">
-                  <p className="font-medium text-navy">
-                    {q.location}
-                    {q.estimated_area ? ` · ${q.estimated_area}` : ""}
-                  </p>
-                  <span
-                    className={`shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium ${STATUS_STYLES[q.status]}`}
-                  >
-                    {q.status}
-                  </span>
-                </div>
-                <p className="mt-1 text-xs text-navy/50">
-                  {new Date(q.created_at).toLocaleDateString("en-IN")}
-                </p>
+      <div className="mt-8 rounded-lg border border-navy/10 bg-white">
+        <div className="flex items-center justify-between border-b border-navy/10 px-6 py-4">
+          <p className="text-xs font-semibold tracking-[0.15em] text-navy/50 uppercase">
+            Recent Activity
+          </p>
+          <Link
+            href="/profile/quotes"
+            className="text-xs font-semibold tracking-wide text-blue uppercase hover:text-blue-dark"
+          >
+            View All
+          </Link>
+        </div>
+
+        {recent.length === 0 ? (
+          <div className="px-6 py-12 text-center">
+            <p className="text-navy/50">You haven&apos;t submitted any quote requests yet.</p>
+            <Link
+              href="/quote"
+              className="mt-4 inline-flex items-center gap-1.5 rounded-md bg-gold px-4 py-2 text-sm font-semibold text-navy transition hover:bg-amber"
+            >
+              Get a Quote
+            </Link>
+          </div>
+        ) : (
+          <ul className="divide-y divide-navy/10">
+            {recent.map((q) => (
+              <li key={q.id}>
+                <Link
+                  href="/profile/quotes"
+                  className="flex items-center justify-between gap-4 px-6 py-4 transition hover:bg-cream"
+                >
+                  <div className="min-w-0">
+                    <p className="font-semibold text-navy">
+                      Quote for {q.location}
+                      {q.estimated_area ? ` · ${q.estimated_area}` : ""}
+                    </p>
+                    <p className="mt-0.5 text-xs text-navy/50">
+                      {formatRelativeTime(q.updated_at ?? q.created_at)}
+                    </p>
+                  </div>
+                  <div className="flex shrink-0 items-center gap-3">
+                    <span
+                      className={`rounded-full px-2.5 py-0.5 text-xs font-medium capitalize ${STATUS_STYLES[q.status]}`}
+                    >
+                      {q.status}
+                    </span>
+                    <ChevronRight className="h-4 w-4 text-navy/30" />
+                  </div>
+                </Link>
               </li>
             ))}
           </ul>
-        ) : (
-          <p className="mt-4 text-navy/50">You haven&apos;t submitted any quote requests yet.</p>
         )}
-      </section>
-    </main>
+      </div>
+    </div>
   );
 }

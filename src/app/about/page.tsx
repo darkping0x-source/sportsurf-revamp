@@ -2,7 +2,7 @@ import { History, Target, Users, ShieldCheck } from "lucide-react";
 import { getCompanyTimeline, getCompanyStats } from "@/lib/data";
 
 export const metadata = {
-  title: "About — SportSurf India",
+  title: "About | SportSurf India",
   description: "Leader in Sports Surfaces & Infrastructure",
 };
 
@@ -50,7 +50,7 @@ export default async function AboutPage() {
             <p className="mt-4 leading-relaxed text-navy/70">
               What began as a small turf-installation outfit in Gurgaon has grown into a
               pan-India sports infrastructure company. Today, &ldquo;Antigravity&rdquo;
-              represents our next evolution — a commitment to physics-driven design that
+              represents our next evolution, a commitment to physics-driven design that
               minimizes injury risk and maximizes performance potential.
             </p>
           </div>

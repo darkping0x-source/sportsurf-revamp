@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Check Your Email — SportSurf India",
+  title: "Check Your Email | SportSurf India",
 };
 
 export default function CheckEmailPage() {

@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Privacy Policy — SportSurf India",
+  title: "Privacy Policy | SportSurf India",
 };
 
 export default function PrivacyPage() {
@@ -8,8 +8,8 @@ export default function PrivacyPage() {
       <h1 className="text-3xl font-bold text-navy">Privacy Policy</h1>
       <div className="mt-6 space-y-4 leading-relaxed text-navy/80">
         <p>
-          SportSurf India collects information you provide directly to us — such as your
-          name, email, and phone number — when you register an account, request a quote,
+          SportSurf India collects information you provide directly to us, such as your
+          name, email, and phone number, when you register an account, request a quote,
           or contact us. We use this information solely to respond to your request and
           deliver our services.
         </p>

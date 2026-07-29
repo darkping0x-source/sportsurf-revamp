@@ -3,7 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { PRODUCT_CATEGORIES } from "@/lib/types";
 import { updateProject } from "../actions";
 
-export const metadata = { title: "Edit Project — Admin" };
+export const metadata = { title: "Edit Project | Admin" };
 
 const inputClass =
   "mt-1 w-full rounded-md border border-navy/15 px-3 py-2 text-navy focus:border-blue focus:outline-none";

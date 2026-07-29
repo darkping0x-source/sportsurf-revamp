@@ -2,7 +2,7 @@ import { getProjects, getCompanyStats } from "@/lib/data";
 import ProjectCard from "@/components/ProjectCard";
 
 export const metadata = {
-  title: "Projects — SportSurf India",
+  title: "Projects | SportSurf India",
   description: "Leader in Sports Surfaces & Infrastructure",
 };
 

@@ -67,13 +67,8 @@ cp .env.example .env.local   # fill in your own Supabase + Gemini keys
 npm run dev
 ```
 
-Before first run, apply the schema to your Supabase project (SQL Editor, in order):
-
-1. `supabase/migrations/0001_init.sql`
-2. `supabase/migrations/0002_seed.sql`
-3. `supabase/migrations/0003_fix_admin_recursion.sql`
-4. `supabase/migrations/0004_expand_categories_and_media.sql`
-5. `supabase/migrations/0005_expand_seed.sql`
+Before first run, apply the schema to your Supabase project (SQL Editor, in order — run every
+file in `supabase/migrations/`, numerically, 0001 through the highest-numbered file present).
 
 To reach the admin dashboard, promote a user to admin manually once, e.g.:
 
@@ -87,6 +82,26 @@ update profiles set role = 'admin' where id = '<your-user-id>';
 npm run test       # unit tests (vitest) — validation + search ranking
 npm run test:e2e   # integration test (Playwright) — login, quote request, profile
 ```
+
+## Deploying to Vercel
+
+1. Push this repo to GitHub, then import it into Vercel ("Add New… → Project"). Vercel
+   detects Next.js automatically — no build command changes needed.
+2. In the Vercel project's **Settings → Environment Variables**, add the same four variables
+   from `.env.example`/`.env.local`: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`,
+   `SUPABASE_SERVICE_ROLE_KEY`, `GEMINI_API_KEY`.
+3. Deploy. Vercel gives you a `https://<project>.vercel.app` URL.
+4. In the Supabase Dashboard, go to **Authentication → URL Configuration** and set:
+   - **Site URL** to the Vercel URL.
+   - **Redirect URLs** to include `https://<project>.vercel.app/auth/confirm` (and
+     `http://localhost:3000/auth/confirm` too, if you still want local dev to keep working).
+
+   Without this, Supabase will reject the redirect after email confirmation/PKCE code
+   exchange, since it only allows redirecting to URLs on this allowlist.
+5. Register a fresh account on the deployed URL and confirm the email flow works end-to-end
+   before treating the deployment as done — the confirmation link's redirect target is
+   captured from the request's `origin` header at signup time, so it'll automatically point
+   at whichever domain the user actually signed up from.
 
 ## Known scope notes for this submission
 
@@ -104,6 +119,4 @@ npm run test:e2e   # integration test (Playwright) — login, quote request, pro
   emails per hour — fine for this evaluation, but a production launch would want a real SMTP
   provider (Resend, SendGrid, etc.) configured in Supabase's Auth settings.
 - **Not deployed to a public URL yet** — runs via `npm run dev` / `npm run build && npm run
-  start`. Deploying (Vercel is the natural fit for Next.js) just needs the same env vars set
-  there, plus updating Supabase Auth's Site URL/redirect URLs to the production domain so
-  email confirmation links resolve correctly.
+  start`. See "Deploying to Vercel" above for the exact steps.

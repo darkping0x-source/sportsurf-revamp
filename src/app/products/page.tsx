@@ -5,7 +5,7 @@ import { getProducts } from "@/lib/data";
 import { PRODUCT_CATEGORIES, type ProductCategory } from "@/lib/types";
 
 export const metadata = {
-  title: "Products — SportSurf India",
+  title: "Products | SportSurf India",
   description: "Leader in Sports Surfaces & Infrastructure",
 };
 

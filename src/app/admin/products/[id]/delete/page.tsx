@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { deleteProduct } from "../../actions";
 
-export const metadata = { title: "Delete Product — Admin" };
+export const metadata = { title: "Delete Product | Admin" };
 
 export default async function DeleteProductPage({
   params,

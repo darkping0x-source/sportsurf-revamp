@@ -42,7 +42,7 @@ export default function ContactForm({
   if (status === "submitted") {
     return (
       <div className="rounded-lg border border-blue/20 bg-blue/5 p-6 text-center text-navy">
-        Thanks — we&apos;ve received your details and will get back to you shortly.
+        Thanks, we&apos;ve received your details and will get back to you shortly.
       </div>
     );
   }
@@ -82,7 +82,7 @@ export default function ContactForm({
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="w-full rounded-md bg-blue px-5 py-2.5 font-medium text-white transition hover:bg-blue-dark disabled:opacity-60"
+        className="w-full rounded-md bg-gold px-5 py-2.5 font-semibold text-navy transition hover:bg-amber disabled:opacity-60"
       >
         {status === "submitting" ? "Sending..." : submitLabel}
       </button>

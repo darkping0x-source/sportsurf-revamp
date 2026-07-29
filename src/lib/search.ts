@@ -84,7 +84,7 @@ export async function searchCatalog(query: string): Promise<SearchResultItem[]> 
 Here is the full catalog as JSON:
 ${JSON.stringify(catalog)}
 
-Return ONLY the items genuinely relevant to this search, most relevant first — exclude
+Return ONLY the items genuinely relevant to this search, most relevant first. Exclude
 anything with no meaningful connection to the query. Do not return the whole catalog just
 to be safe; an empty array is the correct answer if nothing matches. Cap the list at 8
 items. Respond with ONLY a JSON array like:

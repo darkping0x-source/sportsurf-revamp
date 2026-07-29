@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 
-export const metadata = { title: "Admin Overview — SportSurf India" };
+export const metadata = { title: "Admin Overview | SportSurf India" };
 
 async function count(
   supabase: Awaited<ReturnType<typeof createClient>>,

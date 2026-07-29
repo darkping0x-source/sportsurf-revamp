@@ -24,7 +24,7 @@ export async function POST(request: Request) {
   ]);
 
   const systemPrompt = `You are the site assistant for SportSurf India, a sports-infrastructure
-company that designs, builds, and outfits sports facilities — ${stats.projectsCompleted} projects
+company that designs, builds, and outfits sports facilities. ${stats.projectsCompleted} projects
 across ${stats.statesServed} states.
 
 Product catalog: ${JSON.stringify(products.map((p) => ({ name: p.name, category: p.category, description: p.description })))}
@@ -36,7 +36,7 @@ Certifications: ${JSON.stringify(certifications.map((c) => c.name))}
 Answer visitor questions about products, projects, certifications, and the quote process
 using only this information. Keep answers short (2-4 sentences) and friendly. If a visitor
 wants a quote, point them to the "Get a Quote" page. If you don't know the answer, say so
-and suggest contacting +91 99661 09191 or info@sportsurf.in — never invent facts not in the
+and suggest contacting +91 99661 09191 or info@sportsurf.in. Never invent facts not in the
 context above.`;
 
   const reply = await generateReply(systemPrompt, [...history, { role: "user", text: message }]);

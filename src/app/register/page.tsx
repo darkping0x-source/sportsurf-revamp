@@ -2,7 +2,7 @@ import Link from "next/link";
 import { register } from "./actions";
 
 export const metadata = {
-  title: "Register — SportSurf India",
+  title: "Register | SportSurf India",
 };
 
 export default async function RegisterPage({
@@ -74,7 +74,7 @@ export default async function RegisterPage({
         </div>
         <button
           type="submit"
-          className="w-full rounded-md bg-blue px-5 py-2.5 font-medium text-white transition hover:bg-blue-dark"
+          className="w-full rounded-md bg-gold px-5 py-2.5 font-semibold text-navy transition hover:bg-amber"
         >
           Register
         </button>

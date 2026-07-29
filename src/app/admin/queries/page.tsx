@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 
-export const metadata = { title: "Search & Chat Queries — Admin" };
+export const metadata = { title: "Search & Chat Queries | Admin" };
 
 export default async function AdminQueriesPage({
   searchParams,

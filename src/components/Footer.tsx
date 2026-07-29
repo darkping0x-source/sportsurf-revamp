@@ -29,7 +29,7 @@ export default async function Footer() {
               </p>
             </div>
             <p className="mt-3 max-w-xs text-sm leading-relaxed text-white/60">
-              India&apos;s leading sports infrastructure company — designing, building, and
+              India&apos;s leading sports infrastructure company, designing, building, and
               outfitting arenas for sport, play, and excellence.
             </p>
             <div className="mt-4 flex gap-3">
@@ -95,7 +95,7 @@ export default async function Footer() {
             <ul className="mt-3 space-y-2 text-sm text-white/60">
               <li className="flex items-start gap-2">
                 <MapPin className="text-gold mt-0.5 h-4 w-4 shrink-0" />
-                Gurgaon, Haryana, India — Pan India Service Availability
+                Gurgaon, Haryana, India (Pan India Service Availability)
               </li>
               <li className="flex items-center gap-2">
                 <Phone className="text-gold h-4 w-4 shrink-0" />

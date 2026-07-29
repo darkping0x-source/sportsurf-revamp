@@ -1,7 +1,7 @@
 import { PRODUCT_CATEGORIES } from "@/lib/types";
 import { createProject } from "../actions";
 
-export const metadata = { title: "Add Project — Admin" };
+export const metadata = { title: "Add Project | Admin" };
 
 const inputClass =
   "mt-1 w-full rounded-md border border-navy/15 px-3 py-2 text-navy focus:border-blue focus:outline-none";

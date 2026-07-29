@@ -9,10 +9,14 @@ export default function PromoTicker() {
   const items = [...ANNOUNCEMENTS, ...ANNOUNCEMENTS];
 
   return (
-    <div className="flex items-stretch overflow-hidden bg-navy text-white">
-      <div className="shrink-0 bg-gold px-4 py-2 text-xs font-bold tracking-wider text-navy uppercase">
+    <div className="flex h-9 items-center overflow-hidden bg-navy text-white">
+      <div className="flex h-full shrink-0 items-center bg-gold pr-1 pl-4 text-xs font-bold tracking-wider text-navy uppercase sm:pl-6 lg:pl-8">
         Latest Updates
       </div>
+      <div
+        aria-hidden="true"
+        className="h-0 w-0 shrink-0 border-y-[18px] border-y-transparent border-l-[14px] border-l-gold"
+      />
       <div className="flex flex-1 items-center overflow-hidden">
         <div className="animate-marquee flex shrink-0 items-center gap-10 py-2 whitespace-nowrap">
           {items.map((item, i) => (

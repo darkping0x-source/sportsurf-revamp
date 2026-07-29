@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Terms of Service — SportSurf India",
+  title: "Terms of Service | SportSurf India",
 };
 
 export default function TermsPage() {

@@ -73,21 +73,21 @@ export default function Chatbot() {
             </button>
           </div>
 
-          <div ref={scrollRef} className="flex-1 space-y-3 overflow-y-auto p-4">
+          <div ref={scrollRef} className="flex-1 space-y-3 overflow-y-auto bg-cream p-4">
             {messages.map((m, i) => (
               <div
                 key={i}
                 className={`max-w-[85%] rounded-lg px-3 py-2 text-sm ${
                   m.role === "user"
-                    ? "ml-auto bg-blue text-white"
-                    : "bg-grey text-navy"
+                    ? "ml-auto bg-navy text-white"
+                    : "border border-navy/10 bg-white text-navy"
                 }`}
               >
                 {m.text}
               </div>
             ))}
             {pending && (
-              <div className="max-w-[85%] rounded-lg bg-grey px-3 py-2 text-sm text-navy/50">
+              <div className="max-w-[85%] rounded-lg border border-navy/10 bg-white px-3 py-2 text-sm text-navy/50">
                 Typing...
               </div>
             )}
@@ -104,7 +104,7 @@ export default function Chatbot() {
               type="submit"
               disabled={pending || !input.trim()}
               aria-label="Send"
-              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-blue text-white transition hover:bg-blue-dark disabled:opacity-50"
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-gold text-navy transition hover:bg-amber disabled:opacity-50"
             >
               <Send className="h-4 w-4" />
             </button>
@@ -115,7 +115,7 @@ export default function Chatbot() {
       <button
         onClick={() => setOpen((v) => !v)}
         aria-label={open ? "Close chat" : "Open chat"}
-        className="flex h-14 w-14 items-center justify-center rounded-full bg-blue text-white shadow-lg transition hover:bg-blue-dark"
+        className="flex h-14 w-14 items-center justify-center rounded-full bg-gold text-navy shadow-lg transition hover:bg-amber"
       >
         {open ? <X className="h-6 w-6" /> : <MessageCircle className="h-6 w-6" />}
       </button>

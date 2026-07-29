@@ -1,7 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { setQuoteStatus } from "./actions";
 
-export const metadata = { title: "Quote Requests — Admin" };
+export const metadata = { title: "Quote Requests | Admin" };
 
 const STATUS_STYLES: Record<string, string> = {
   approved: "bg-green-100 text-green-700",
@@ -54,6 +54,7 @@ export default async function AdminQuotesPage({
                 <p className="mt-1 text-sm text-navy/70">
                   {q.location}
                   {q.estimated_area ? ` · ${q.estimated_area}` : ""}
+                  {q.urgency ? ` · ${q.urgency}` : ""}
                 </p>
                 {q.message && <p className="mt-2 text-sm text-navy/50 italic">&ldquo;{q.message}&rdquo;</p>}
                 <p className="mt-2 text-xs text-navy/40">

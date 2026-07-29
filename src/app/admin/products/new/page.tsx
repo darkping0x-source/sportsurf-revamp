@@ -1,7 +1,7 @@
 import { PRODUCT_CATEGORIES } from "@/lib/types";
 import { createProduct } from "../actions";
 
-export const metadata = { title: "Add Product — Admin" };
+export const metadata = { title: "Add Product | Admin" };
 
 export default async function NewProductPage({
   searchParams,

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { PRODUCT_CATEGORIES } from "@/lib/types";
 
-export const metadata = { title: "Products — Admin" };
+export const metadata = { title: "Products | Admin" };
 
 export default async function AdminProductsPage() {
   const supabase = await createClient();

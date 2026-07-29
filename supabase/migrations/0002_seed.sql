@@ -33,7 +33,7 @@ on conflict (slug) do nothing;
 
 insert into projects (title, slug, client_name, location, state, category, description, completed_on) values
   ('FIFA-Certified Turf Installation', 'fifa-certified-turf-delhi', 'Delhi Sports Authority', 'New Delhi', 'Delhi', 'surface_sports',
-   'Our first FIFA-certified turf installation — a full-size football pitch built to Quality Pro specification.', '2019-03-01'),
+   'Our first FIFA-certified turf installation, a full-size football pitch built to Quality Pro specification.', '2019-03-01'),
   ('Multi-Sport Academy Campus', 'multi-sport-academy-gurgaon', 'Gurgaon Sports Academy', 'Gurgaon', 'Haryana', 'sports_academies',
    'A full academy build-out including a FIFA-standard pitch, IAAF athletics track, and academy seating.', '2021-06-01'),
   ('Indoor Badminton Complex', 'indoor-badminton-complex-kerala', 'Kerala Badminton Association', 'Kochi', 'Kerala', 'small_sports',

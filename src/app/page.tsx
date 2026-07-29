@@ -4,6 +4,7 @@ import { ArrowUpRight, Star, Quote, MessageCircle } from "lucide-react";
 import { PRODUCT_CATEGORIES } from "@/lib/types";
 import { CATEGORY_IMAGES } from "@/lib/category-icons";
 import ProjectCard from "@/components/ProjectCard";
+import CountUpStat from "@/components/CountUpStat";
 import {
   getCertifications,
   getCompanyStats,
@@ -11,7 +12,8 @@ import {
   getTestimonials,
 } from "@/lib/data";
 
-const HERO_IMAGE = "https://picsum.photos/seed/sportsurf-hero-stadium/1920/1080";
+const HERO_IMAGE =
+  "https://images.unsplash.com/photo-1593923503977-f5acc0269769?w=1920&h=1080&fit=crop&q=80";
 
 export default async function Home() {
   const [certifications, stats, projects, testimonials] = await Promise.all([
@@ -52,7 +54,7 @@ export default async function Home() {
             Leader in Sports Surfaces &amp; Infrastructure
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-white/80">
-            {stats.projectsCompleted} projects completed across {stats.statesServed} states —
+            {stats.projectsCompleted} projects completed across {stats.statesServed} states,
             from FIFA-certified turf to full academy build-outs.
           </p>
           <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
@@ -129,10 +131,7 @@ export default async function Home() {
             { value: stats.institutionalClients, label: "Institutional Clients" },
             { value: stats.yearsOfTrust, label: "Years of Trust" },
           ].map((s) => (
-            <div key={s.label}>
-              <p className="font-display text-3xl font-bold sm:text-4xl">{s.value}</p>
-              <p className="mt-1 text-xs tracking-wide text-white/60 uppercase">{s.label}</p>
-            </div>
+            <CountUpStat key={s.label} value={s.value} label={s.label} />
           ))}
         </div>
       </section>
@@ -228,7 +227,7 @@ export default async function Home() {
         <div className="mx-auto flex max-w-7xl flex-col items-center gap-6 px-4 py-16 text-center sm:px-6 lg:flex-row lg:justify-between lg:text-left lg:px-8">
           <div>
             <p className="text-xs font-semibold tracking-wide text-gold uppercase">
-              Available 24/7 — Pan India
+              Available 24/7, Pan India
             </p>
             <h2 className="font-display mt-2 max-w-lg text-3xl font-bold text-white">
               Ready to Build Your Dream Sports Facility?

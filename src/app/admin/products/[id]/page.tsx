@@ -3,7 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { PRODUCT_CATEGORIES } from "@/lib/types";
 import { updateProduct } from "../actions";
 
-export const metadata = { title: "Edit Product — Admin" };
+export const metadata = { title: "Edit Product | Admin" };
 
 export default async function EditProductPage({
   params,
